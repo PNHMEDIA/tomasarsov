@@ -41,23 +41,41 @@
     </div>
   </nav>
 
-  <!-- Hero Section -->
-  <section class="hero" id="home">
+ <!-- Updated Hero Section with Expanding Video -->
+<section class="hero" id="home">
     <div class="hero-background"></div>
     <div class="hero-overlay"></div>
+    
+    <!-- Content Container -->
+    <div class="hero-content-wrapper">
+      <!-- Text Content -->
+      <div class="hero-content">
+        <h1 class="split-text">Tomáš Arsov</h1>
+        <h2 class="split-text">Hair & Beauty Institute</h2>
+         
+        
+      </div>
+      
+      <!-- Expanding Video Container -->
+      <div class="expanding-video-container">
+        <video class="expanding-video" muted loop playsinline>
+          <source src="https://your-video-url.mp4" type="video/mp4">
+        </video>
+        <div class="video-overlay-gradient"></div>
+      </div>
+    </div>
+    
+    <!-- Scroll indicator -->
+    <div class="scroll-indicator">
+      <span>Objevte více</span>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 5V19M12 19L19 12M12 19L5 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    
+    <!-- Decorative elements -->
     <div class="scissors-animation left">
       <img src="https://tomasarsov.cz/wp-content/uploads/2021/06/tomas_arsov_logo_blue1.png" alt="Tomáš Arsov scissors" class="brand-scissors">
-    </div>
-    <div class="hero-content">
-      <h1 class="split-text">Tomáš Arsov</h1>
-      <h2 class="split-text">Hair & Beauty Institute</h2>
-      <p class="hero-tagline">Prémiové kadeřnictví v centru Prahy</p>
-      <div class="scroll-indicator">
-        <span></span>
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 5V19M12 19L19 12M12 19L5 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </div>
     </div>
     <div class="scissors-animation right">
       <img src="https://tomasarsov.cz/wp-content/uploads/2021/06/tomas_arsov_logo_blue1.png" alt="Tomáš Arsov scissors" class="brand-scissors flip-horizontal">
@@ -80,7 +98,8 @@
     </div>
   </section>
 
-  <!-- TV Show Section -->
+
+
   <section class="tv-section">
     <div class="tv-content">
       <div class="tv-left">
@@ -94,6 +113,8 @@
       </div>
     </div>
   </section>
+
+  
 
   <!-- Services Section -->
   <section class="services-section" id="services">
@@ -1566,7 +1587,167 @@ section {
 
 
 
+/* Updated Hero Section Styles */
+.hero {
+  height: 100vh;
+  position: relative;
+  color: var(--color-primary);
+  overflow: hidden;
+}
 
+.hero-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('https://tomasarsov.cz/wp-content/uploads/2024/08/6-4.jpg') no-repeat center center;
+  background-size: cover;
+  z-index: -2;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+  z-index: -1;
+}
+
+.hero-content-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  height: 100%;
+  padding-left: 5%;
+  z-index: 2;
+}
+
+.hero-content {
+  max-width: 600px;
+  position: relative;
+  z-index: 2;
+  opacity: 0; /* Start invisible for animation */
+}
+
+.hero-content h1 {
+  font-size: clamp(3rem, 5vw, 5rem);
+  margin-bottom: 0.2em;
+}
+
+.hero-content h2 {
+  font-size: clamp(1.5rem, 3vw, 3rem);
+  margin-bottom: 1em;
+}
+
+.hero-tagline {
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
+  margin-bottom: 2rem;
+  opacity: 0;
+}
+
+.hero-cta-button {
+  display: inline-block;
+  background-color: var(--color-primary);
+  color: white;
+  padding: 0.8em 2em;
+  border-radius: 3px;
+  font-weight: 500;
+  transition: all var(--transition-medium);
+  opacity: 0;
+}
+
+.hero-cta-button:hover {
+  background-color: var(--color-secondary);
+  color: var(--color-primary);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Expanding Video Container */
+.expanding-video-container {
+  position: fixed;
+  top: 50%;
+  left: 300px; /* Start position near text */
+  transform: translate(0, -50%);
+  width: 200px; /* Starting width */
+  height: 150px; /* Starting height */
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  z-index: 100000; /* Extremely high z-index as requested */
+  opacity: 0; /* Start invisible for animation */
+}
+
+.expanding-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.video-overlay-gradient {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(30, 34, 170, 0.3) 0%, transparent 100%);
+  z-index: 1;
+}
+
+/* Scroll indicator */
+.scroll-indicator {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: var(--font-size-small);
+  opacity: 0;
+  cursor: pointer;
+  transition: opacity var(--transition-medium);
+  color: var(--color-primary);
+  z-index: 5;
+}
+
+.scroll-indicator span {
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.scroll-indicator svg {
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .hero-content {
+    text-align: center;
+    padding: 0 2rem;
+  }
+  
+  .expanding-video-container {
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
 
 </style>
   <script>// Register GSAP plugins
@@ -2249,372 +2430,183 @@ ScrollTrigger.create({
   toggleClass: {className: 'scrolled', targets: '.main-nav'}
 });
 
-// Add this to your CSS
-const enhancedServicesStyle = document.createElement('style');
-enhancedServicesStyle.innerHTML = `
-  .service-item {
-    transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.6s, background 0.6s !important;
-    background: white;
-    overflow: hidden;
-  }
+
+
+// Updated Hero Section Animations with Expanding Video
+function initExpandingVideoAnimation() {
+  // Initial animations when page loads
+  const heroTimeline = gsap.timeline();
   
-  .service-item:hover {
-    transform: translateY(-15px) scale(1.02) !important;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15) !important;
-  }
+  // Fade in hero content
+  heroTimeline.to('.hero-content', {
+    opacity: 1,
+    duration: 1,
+    ease: "power2.out"
+  }, 0.3);
   
-  .service-bg-animation {
+  // Character animation for hero title
+  heroTimeline.to('.hero h1 span', {
+    opacity: 1,
+    y: 0,
+    duration: 0.5,
+    stagger: 0.03,
+    ease: "back.out(1.7)"
+  }, 0.5);
+  
+  // Character animation for hero subtitle
+  heroTimeline.to('.hero h2 span', {
+    opacity: 1,
+    y: 0,
+    duration: 0.5,
+    stagger: 0.03,
+    ease: "back.out(1.7)"
+  }, 0.8);
+  
+  // Hero tagline fade in
+  heroTimeline.to('.hero-tagline', {
+    opacity: 1,
+    duration: 1
+  }, 1.2);
+  
+  // CTA button fade in
+  heroTimeline.to('.hero-cta-button', {
+    opacity: 1,
+    duration: 1
+  }, 1.4);
+
+  // Show small video
+  heroTimeline.to('.expanding-video-container', {
+    opacity: 1,
+    duration: 1
+  }, 1.5);
+  
+  // Play the video when it appears
+  heroTimeline.add(() => {
+    document.querySelector('.expanding-video').play();
+  }, 1.5);
+  
+  // Scroll indicator fade in
+  heroTimeline.to('.scroll-indicator', {
+    opacity: 1,
+    duration: 1
+  }, 1.6);
+  
+  // Scissors animations
+  heroTimeline.to('.scissors-animation.left', {
+    x: 20,
+    y: 20,
+    rotation: 15,
+    duration: 2,
+    repeat: -1,
+    yoyo: true,
+    ease: "sine.inOut"
+  }, 1);
+  
+  heroTimeline.to('.scissors-animation.right', {
+    x: -20,
+    y: -20,
+    rotation: -15,
+    duration: 2.5,
+    repeat: -1,
+    yoyo: true,
+    ease: "sine.inOut"
+  }, 1);
+  
+  // Video expansion animation on scroll
+  const videoExpansionTimeline = gsap.timeline({
+    scrollTrigger: {
+      trigger: '.hero',
+      start: 'top top',
+      end: 'bottom top',
+      scrub: true,
+      pin: true,
+      pinSpacing: true,
+      anticipatePin: 1
+    }
+  });
+  
+  // As user scrolls, expand video to full screen
+  videoExpansionTimeline.to('.expanding-video-container', {
+    width: '100vw',
+    height: '100vh',
+    top: '50%',
+    left: '50%',
+    xPercent: -50,
+    yPercent: -50,
+    borderRadius: 0,
+    duration: 1,
+    ease: 'power2.inOut'
+  }, 0);
+  
+  // Fade out hero content as video expands
+  videoExpansionTimeline.to('.hero-content', {
+    opacity: 0,
+    duration: 0.5
+  }, 0);
+  
+  // Fade out other decorative elements
+  videoExpansionTimeline.to('.scissors-animation, .scroll-indicator', {
+    opacity: 0,
+    duration: 0.3
+  }, 0);
+  
+  // Adjust video overlay gradient
+  videoExpansionTimeline.to('.video-overlay-gradient', {
+    background: 'linear-gradient(135deg, rgba(30, 34, 170, 0.2) 0%, transparent 60%)',
+    duration: 0.5
+  }, 0.3);
+  
+  // Add a marker to indicate when we're at full screen and can scroll past
+  videoExpansionTimeline.add(() => {
+    // You could add an indicator here if desired
+    console.log("Video reached full screen - user can scroll past");
+  }, 1);
+  
+  // Create overlay text that appears when video is fullscreen
+  const overlayText = document.createElement('div');
+  overlayText.className = 'video-fullscreen-text';
+  overlayText.innerHTML = '<h3>Vítejte v Tomáš Arsov</h3><p>Scroll to discover more</p>';
+  overlayText.style.cssText = `
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, #1E22AA, #AAC2E6);
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    text-align: center;
     opacity: 0;
-    z-index: -1;
-    transition: opacity 0.6s;
-    transform: scale(1.1);
-  }
-  
-  .service-item:hover .service-bg-animation {
-    opacity: 1;
-  }
-  
-  .service-icon-wrapper {
-    position: relative;
-    width: 80px;
-    height: 80px;
-    margin: 0 auto 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.2);
-    transition: transform 0.5s, background 0.5s;
-  }
-  
-  .service-item:hover .service-icon-wrapper {
-    transform: rotateY(180deg);
-    background: rgba(255, 255, 255, 0.9);
-  }
-  
-  .service-item:hover .service-icon {
-    color: var(--color-primary) !important;
-  }
-  
-  .service-item:hover h3, .service-item:hover p {
-    color: white !important;
-    position: relative;
     z-index: 2;
-  }
-`;
-document.head.appendChild(enhancedServicesStyle);
-
-// Add this to your initAnimations function
-function enhanceServiceItems() {
-  const serviceItems = document.querySelectorAll('.service-item');
+    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+  `;
+  document.querySelector('.expanding-video-container').appendChild(overlayText);
   
-  serviceItems.forEach(item => {
-    // Create background animation element
-    const bgAnimation = document.createElement('div');
-    bgAnimation.classList.add('service-bg-animation');
-    item.appendChild(bgAnimation);
-    
-    // Create icon wrapper
-    const iconElement = item.querySelector('.service-icon');
-    const iconWrapper = document.createElement('div');
-    iconWrapper.classList.add('service-icon-wrapper');
-    iconElement.parentNode.insertBefore(iconWrapper, iconElement);
-    iconWrapper.appendChild(iconElement);
-    
-    // 3D tilt effect
-    item.addEventListener('mousemove', e => {
-      const rect = item.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      
-      const centerX = rect.width / 2;
-      const centerY = rect.height / 2;
-      
-      const deltaX = (x - centerX) / centerX;
-      const deltaY = (y - centerY) / centerY;
-      
-      gsap.to(item, {
-        rotationY: deltaX * 5,
-        rotationX: -deltaY * 5,
-        duration: 0.5,
-        ease: 'power2.out'
-      });
-    });
-    
-    item.addEventListener('mouseleave', () => {
-      gsap.to(item, {
-        rotationY: 0,
-        rotationX: 0,
-        duration: 0.5,
-        ease: 'power2.out'
-      });
-    });
-  });
+  // Fade in overlay text when video is fullscreen
+  videoExpansionTimeline.to('.video-fullscreen-text', {
+    opacity: 1,
+    duration: 0.3
+  }, 0.7);
 }
 
-// Add this to your initAnimations function
-enhanceServiceItems();
-// Add this to your CSS
-const customCursorStyle = document.createElement('style');
-customCursorStyle.innerHTML = `
-  body {
-    cursor: none;
-  }
-  
-  a, button, .service-item, .offer-card, .nav-item, .cta-button, .btn-primary, .btn-secondary, .btn-reservation, .social-icons a {
-    cursor: none;
-  }
-  
-  .custom-cursor {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background-color: rgba(30, 34, 170, 0.5);
-    pointer-events: none;
-    z-index: 9999;
-    transition: transform 0.1s;
-    mix-blend-mode: difference;
-    transform: translate(-50%, -50%);
-  }
-  
-  .cursor-follower {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    border: 1px solid rgba(30, 34, 170, 0.5);
-    pointer-events: none;
-    z-index: 9998;
-    transition: transform 0.3s ease;
-    transform: translate(-50%, -50%);
-    mix-blend-mode: difference;
-  }
-  
-  .hoverable:hover ~ .custom-cursor {
-    transform: translate(-50%, -50%) scale(1.5);
-    background-color: rgba(219, 200, 182, 0.8);
-  }
-  
-  .hoverable:hover ~ .cursor-follower {
-    transform: translate(-50%, -50%) scale(1.8);
-    border-color: rgba(219, 200, 182, 0.5);
-  }
-`;
-document.head.appendChild(customCursorStyle);
-
-// Add this to your initAnimations function or create a separate function
-function initCustomCursor() {
-  // Create cursor elements
-  const cursor = document.createElement('div');
-  cursor.classList.add('custom-cursor');
-  document.body.appendChild(cursor);
-  
-  const cursorFollower = document.createElement('div');
-  cursorFollower.classList.add('cursor-follower');
-  document.body.appendChild(cursorFollower);
-  
-  // Add hoverable class to interactive elements
-  const hoverableElements = document.querySelectorAll('a, button, .service-item, .offer-card, .nav-item, .cta-button, .btn-primary, .btn-secondary, .btn-reservation, .social-icons a');
-  hoverableElements.forEach(el => {
-    el.classList.add('hoverable');
-  });
-  
-  // Mouse move event
-  document.addEventListener('mousemove', e => {
-    gsap.to(cursor, {
-      x: e.clientX,
-      y: e.clientY,
-      duration: 0.1
-    });
+// Make sure to add this function to your main initialization
+document.addEventListener('DOMContentLoaded', function() {
+  // Split text for character animations
+  const splitTextElements = document.querySelectorAll('.split-text');
+  splitTextElements.forEach(element => {
+    // Split the text into individual characters
+    const text = element.textContent;
+    const characters = text.split("");
+    element.textContent = '';
     
-    gsap.to(cursorFollower, {
-      x: e.clientX,
-      y: e.clientY,
-      duration: 0.5
+    // Create a span for each character
+    characters.forEach(char => {
+      const span = document.createElement('span');
+      span.textContent = char === ' ' ? '\u00A0' : char; // Use non-breaking space for spaces
+      element.appendChild(span);
     });
   });
   
-  // Hide cursor when leaving the window
-  document.addEventListener('mouseleave', () => {
-    gsap.to(cursor, {
-      opacity: 0,
-      duration: 0.3
-    });
-    
-    gsap.to(cursorFollower, {
-      opacity: 0,
-      duration: 0.3
-    });
-  });
-  
-  // Show cursor when entering the window
-  document.addEventListener('mouseenter', () => {
-    gsap.to(cursor, {
-      opacity: 1,
-      duration: 0.3
-    });
-    
-    gsap.to(cursorFollower, {
-      opacity: 1,
-      duration: 0.3
-    });
-  });
-  
-  // Add click animation
-  document.addEventListener('mousedown', () => {
-    gsap.to(cursor, {
-      scale: 0.8,
-      duration: 0.2
-    });
-    
-    gsap.to(cursorFollower, {
-      scale: 0.7,
-      duration: 0.2
-    });
-  });
-  
-  document.addEventListener('mouseup', () => {
-    gsap.to(cursor, {
-      scale: 1,
-      duration: 0.2
-    });
-    
-    gsap.to(cursorFollower, {
-      scale: 1,
-      duration: 0.2
-    });
-  });
-}
-
-// Call this function after DOM is loaded
-initCustomCursor();
-// Add these to your initAnimations function
-
-// 1. Magnetic buttons
-function createMagneticButtons() {
-  const buttons = document.querySelectorAll('.btn-primary, .btn-secondary, .cta-button, .btn-reservation');
-  
-  buttons.forEach(btn => {
-    btn.addEventListener('mousemove', e => {
-      const rect = btn.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      
-      const centerX = rect.width / 2;
-      const centerY = rect.height / 2;
-      
-      const deltaX = (x - centerX) / centerX * 10;
-      const deltaY = (y - centerY) / centerY * 5;
-      
-      gsap.to(btn, {
-        x: deltaX,
-        y: deltaY,
-        duration: 0.3
-      });
-    });
-    
-    btn.addEventListener('mouseleave', () => {
-      gsap.to(btn, {
-        x: 0,
-        y: 0,
-        duration: 0.5
-      });
-    });
-  });
-}
-
-// 2. Smooth image reveal
-function smoothImageReveal() {
-  const images = document.querySelectorAll('.offer-image img, .about-image, .team-image');
-  
-  images.forEach(img => {
-    // Create overlay
-    const overlay = document.createElement('div');
-    overlay.style.position = 'absolute';
-    overlay.style.top = '0';
-    overlay.style.left = '0';
-    overlay.style.width = '100%';
-    overlay.style.height = '100%';
-    overlay.style.backgroundColor = 'var(--color-primary)';
-    overlay.style.transformOrigin = 'left';
-    
-    img.parentNode.style.position = 'relative';
-    img.parentNode.style.overflow = 'hidden';
-    img.parentNode.appendChild(overlay);
-    
-    // Animate overlay
-    ScrollTrigger.create({
-      trigger: img,
-      start: 'top 80%',
-      onEnter: () => {
-        gsap.to(overlay, {
-          scaleX: 0,
-          duration: 1,
-          ease: 'power2.inOut'
-        });
-      }
-    });
-  });
-}
-
-// 3. Floating shapes background
-function addFloatingShapes() {
-  const shapesContainer = document.createElement('div');
-  shapesContainer.classList.add('floating-shapes');
-  shapesContainer.style.position = 'fixed';
-  shapesContainer.style.top = '0';
-  shapesContainer.style.left = '0';
-  shapesContainer.style.width = '100%';
-  shapesContainer.style.height = '100%';
-  shapesContainer.style.pointerEvents = 'none';
-  shapesContainer.style.zIndex = '-1';
-  shapesContainer.style.opacity = '0.2';
-  document.body.appendChild(shapesContainer);
-  
-  // Create shapes
-  const shapes = [];
-  const shapeCount = 15;
-  
-  for (let i = 0; i < shapeCount; i++) {
-    const shape = document.createElement('div');
-    shape.style.position = 'absolute';
-    shape.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
-    shape.style.backgroundColor = i % 2 === 0 ? 'var(--color-primary)' : 'var(--color-secondary)';
-    shape.style.width = `${20 + Math.random() * 30}px`;
-    shape.style.height = `${20 + Math.random() * 30}px`;
-    shape.style.top = `${Math.random() * 100}%`;
-    shape.style.left = `${Math.random() * 100}%`;
-    shapesContainer.appendChild(shape);
-    shapes.push(shape);
-    
-    // Animate each shape
-    gsap.to(shape, {
-      x: `${-150 + Math.random() * 300}`,
-      y: `${-150 + Math.random() * 300}`,
-      rotation: Math.random() * 360,
-      duration: 20 + Math.random() * 30,
-      repeat: -1,
-      yoyo: true,
-      ease: 'sine.inOut'
-    });
-  }
-}
-
-// Call these additional functions
-createMagneticButtons();
-smoothImageReveal();
-addFloatingShapes();
+  // Initialize expanding video animation
+  initExpandingVideoAnimation();
+});
     </script>
 </body>
 </html>
