@@ -1,2576 +1,2322 @@
 <!DOCTYPE html>
-<html lang="cs">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tomáš Arsov Hair & Beauty Institute</title>
-  <link rel="stylesheet" href="enhanced-salon-landing-styles.css">
-  <!-- GSAP and ScrollTrigger from CDN -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/ScrollTrigger.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/TextPlugin.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tomas Arsov - Hero & Slide-Over Services</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Figtree:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ta-blue-primary: #1E22AA;
+            --ta-blue-link: #06084f;
+            --ta-beige-secondary: #DBC8B6;
+            --ta-text-dark: #333333;
+            --ta-text-light: #FFFFFF;
+            --ta-text-gray-inactive: #999999; /* Added missing variable */
+            --ta-bg-light: #F8F7F5;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Figtree', sans-serif;
+            background-color: var(--ta-bg-light);
+            overflow-x: hidden;
+        }
+
+        .site-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            transition: all 0.4s ease;
+          
+        }
+        .site-header.scrolled {
+            background: rgba(255, 255, 255, 0);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            box-shadow: 0 8px 40px rgba(0,0,0,0);
+        }
+        /* Remove hidden class - always visible */
+        .site-header.hidden {
+            transform: none;
+            opacity: 1;
+        }
+        .site-header .logo {
+            font-family: 'DM Serif Display', serif;
+            font-size: 2rem;
+            color: var(--ta-blue-primary);
+            text-decoration: none;
+        }
+        .site-header nav a {
+            margin-left: 30px;
+            text-decoration: none;
+            color: var(--ta-text-dark);
+            font-size: 0.95rem;
+        }
+        .site-header nav a.active, 
+        .site-header nav a:hover {
+            color: var(--ta-blue-primary);
+            font-weight: 700;
+        }
+        .site-header .book-now-btn {
+            margin-left: 30px;
+            padding: 10px 20px;
+            border: 1px solid var(--ta-blue-primary);
+            background-color: var(--ta-blue-primary);
+            color: var(--ta-text-light);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 700;
+            border-radius: 3px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .site-header .book-now-btn:hover {
+            background-color: var(--ta-blue-link);
+            border-color: var(--ta-blue-link);
+        }
+
+        /* --- Hero Section --- */
+        #hero-section {
+            height: 100vh;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--ta-bg-light);
+        }
+        .hero-content-wrapper {
+            position: relative;
+            width: 90%;
+            max-width: 1200px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 2;
+        }
+        .hero-text-layout {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 0 5%;
+            box-sizing: border-box;
+            z-index: 12;
+        }
+        .hero-text-left {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            line-height: 1.1;
+            color: var(--ta-text-dark);
+            text-align: left;
+            flex-basis: 40%;
+        }
+        .hero-text-right {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(1.4rem, 4vw, 2.8rem);
+            line-height: 1.2;
+            color: var(--ta-text-dark);
+            text-align: right;
+            flex-basis: 40%;
+        }
+        .center-image-container {
+            position: relative;
+            width: 30vw;
+            max-width: 350px;
+            aspect-ratio: 16 / 9; /* Changed to 16:9 aspect ratio */
+            transform: rotate(3deg);
+            z-index: 10;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            transform-origin: center center;
+        }
+        .center-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* --- Intermediate Text Section --- */
+        #intermediate-text-section {
+            min-height: 60vh;
+            padding: 100px 50px;
+            background-color: var(--ta-beige-secondary);
+            color: var(--ta-text-dark);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            box-sizing: border-box;
+            opacity: 0;
+            z-index: 5;
+            position: relative;
+        }
+        #intermediate-text-section h2 {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            color: var(--ta-blue-primary);
+            margin-bottom: 20px;
+        }
+        #intermediate-text-section p {
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            line-height: 1.7;
+            max-width: 700px;
+        }
+
+        /* --- Slide-Over Services Section --- */
+        #slide-over-services {
+            height: 100vh;
+            width: 100%;
+            position: relative;
+            background-color: var(--ta-blue-primary);
+            color: var(--ta-text-light);
+            z-index: 500;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 50px 80px;
+            box-sizing: border-box;
+            opacity: 0;
+        }
+        #slide-over-services .section-title {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            margin-bottom: 40px;
+            color: var(--ta-text-light);
+        }
+        .ta-service-link {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            text-decoration: none;
+            color: var(--ta-text-light);
+            margin-bottom: 35px;
+            display: block;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        .ta-service-link:hover { 
+            color: var(--ta-beige-secondary); 
+        }
+        .ta-service-link::after {
+            content: '→';
+            position: absolute;
+            left: calc(100% + 15px);
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            color: var(--ta-beige-secondary);
+        }
+        .ta-service-link:hover::after {
+            opacity: 1;
+            transform: translateY(-50%) translateX(10px);
+        }
+        .ta-service-link span.description {
+            font-family: 'Figtree', sans-serif;
+            font-size: clamp(0.85rem, 1.5vw, 1rem);
+            font-weight: 300;
+            color: var(--ta-beige-secondary);
+            display: block;
+            margin-top: 8px;
+            max-width: 400px;
+        }
+
+        /* --- Sticky Image & Text Section --- */
+        #sticky-image-text-section {
+            padding: 80px 0;
+            background-color: var(--ta-bg-light);
+            position: relative;
+            z-index: 10;
+            opacity: 0;
+        }
+        .sticky-layout-container {
+            display: flex;
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 50px;
+            gap: 60px;
+        }
+        .sticky-image-column {
+            flex: 0 0 40%;
+            position: relative;
+        }
+        .sticky-image-element {
+            width: 100%;
+            max-height: 75vh;
+            position: sticky;
+            top: 120px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .sticky-image-element img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .text-content-column {
+            flex: 1;
+            padding-top: 20px;
+        }
+        .text-block {
+            padding-bottom: 80vh; /* More space for slow scroll effect */
+            opacity: 0;
+            transform: translateY(30px);
+            margin-bottom: 50px;
+        }
+        .text-block:last-child {
+            padding-bottom: 20vh;
+        }
+        .text-block h3 {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
+            color: var(--ta-blue-primary);
+            margin-bottom: 15px;
+        }
+        .text-block p {
+            font-size: clamp(1rem, 1.8vw, 1.1rem);
+            line-height: 1.8;
+            color: var(--ta-text-gray-inactive);
+            transition: color 0.6s ease-out;
+            margin-bottom: 1.5em;
+        }
+        .text-block.is-active-text p {
+            color: var(--ta-text-dark);
+        }
+        
+        /* Individual paragraph reveal effect */
+        .text-block p.paragraph-reveal {
+            color: var(--ta-text-gray-inactive);
+            transition: color 0.8s ease-out;
+        }
+        .text-block p.paragraph-reveal.is-visible {
+            color: var(--ta-text-dark);
+        }
+
+        /* --- Purple Section with Centered Text and Rotating Circle --- */
+        #purple-section {
+            background: linear-gradient(135deg, #1f0067 0%, #2800ee 100%); /* Purple gradient like your image */
+            position: relative;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        .purple-section-container {
+            height: 100vh;
+            position: relative;
+            width: 100%;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Fixed text content on the left - CENTERED */
+        .purple-text-content {
+            width: 50%;
+            height: 100vh;
+            padding: 0 80px;
+            color: white;
+            position: relative;
+            z-index: 50;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .purple-number {
+            font-family: 'Figtree', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 300;
+            margin-bottom: 30px;
+            opacity: 0.8;
+            transition: all 0.6s ease;
+        }
+
+        .purple-title {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(4rem, 8vw, 7rem);
+            color: white;
+            margin-bottom: 40px;
+            line-height: 1.1;
+            transition: all 0.6s ease;
+        }
+
+        .purple-description {
+            font-family: 'Figtree', sans-serif;
+            font-size: clamp(1.1rem, 2.2vw, 1.4rem);
+            line-height: 1.6;
+            max-width: 500px;
+            opacity: 0.9;
+            transition: all 0.6s ease;
+        }
+
+        /* Rotating Circle - Center of section */
+        .purple-rotating-circle {
+            position: absolute;
+            left: 75%; /* Center of right half */
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 140px;
+            height: 140px;
+            z-index: 100;
+        }
+
+        .purple-rotating-circle svg {
+            width: 100%;
+            height: 100%;
+            transition: transform 0.1s ease-out;
+        }
+
+        .purple-rotating-circle text {
+            fill: white;
+            font-family: 'Figtree', sans-serif;
+            font-size: 11px;
+            font-weight: 300;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        /* Image container - right side */
+        .purple-images-container {
+            width: 50%;
+            height: 100vh;
+            position: absolute;
+            right: 0;
+            top: 0;
+            overflow: hidden;
+        }
+
+        .purple-image-item {
+            width: 100%;
+            height: 100vh;
+            position: absolute;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+        }
+
+        .purple-image-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.1s ease;
+        }
+
+        /* Section indicators */
+        .purple-section-indicator {
+            position: fixed;
+            right: 50px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .purple-section-indicator.visible {
+            opacity: 1;
+        }
+
+        .purple-indicator-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .purple-indicator-dot.active {
+            background-color: white;
+            transform: scale(1.3);
+        }
+
+        /* --- Blog Section with Large Wide Images --- */
+        #blog-section {
+            padding: 120px 50px;
+            background-color: var(--ta-bg-light);
+            position: relative;
+        }
+
+        .blog-section-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .blog-section-header h2 {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(3rem, 6vw, 4.5rem);
+            color: var(--ta-blue-primary);
+            margin-bottom: 20px;
+        }
+
+        .blog-section-header p {
+            font-family: 'Figtree', sans-serif;
+            font-size: clamp(1.1rem, 2vw, 1.3rem);
+            color: var(--ta-text-dark);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .blog-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .blog-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 80px;
+        }
+
+        .blog-post {
+            position: relative;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.6s ease;
+        }
+
+        .blog-post.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .blog-image-container {
+            width: 100%;
+            aspect-ratio: 16/5; /* Wide aspect ratio as requested */
+            overflow: hidden;
+            border-radius: 12px;
+            position: relative;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .blog-post:hover .blog-image-container {
+            transform: translateY(-8px);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.15);
+        }
+
+        .blog-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .blog-post:hover .blog-image-container img {
+            transform: scale(1.05);
+        }
+
+        .blog-content {
+            padding: 0 20px;
+        }
+
+        .blog-meta {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 15px;
+        }
+
+        .blog-category {
+            font-family: 'Figtree', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--ta-blue-primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .blog-date {
+            font-family: 'Figtree', sans-serif;
+            font-size: 0.9rem;
+            color: var(--ta-text-gray-inactive);
+        }
+
+        .blog-title {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            color: var(--ta-text-dark);
+            margin-bottom: 20px;
+            line-height: 1.2;
+            transition: color 0.3s ease;
+        }
+
+        .blog-post:hover .blog-title {
+            color: var(--ta-blue-primary);
+        }
+
+        .blog-excerpt {
+            font-family: 'Figtree', sans-serif;
+            font-size: clamp(1rem, 1.8vw, 1.2rem);
+            color: var(--ta-text-gray-inactive);
+            line-height: 1.7;
+            margin-bottom: 25px;
+        }
+
+        .blog-read-more {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Figtree', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--ta-blue-primary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .blog-read-more:hover {
+            color: var(--ta-blue-link);
+            transform: translateX(5px);
+        }
+
+        .blog-read-more::after {
+            content: '→';
+            transition: transform 0.3s ease;
+        }
+
+        .blog-read-more:hover::after {
+            transform: translateX(5px);
+        }
+
+        /* Alternating layout for visual interest */
+        .blog-post:nth-child(even) {
+            direction: rtl;
+        }
+
+        .blog-post:nth-child(even) .blog-content {
+            direction: ltr;
+            text-align: right;
+        }
+
+        .blog-post:nth-child(even) .blog-meta {
+            justify-content: flex-end;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            #blog-section {
+                padding: 80px 25px;
+            }
+
+            .blog-section-header {
+                margin-bottom: 60px;
+            }
+
+            .blog-grid {
+                gap: 60px;
+            }
+
+            .blog-image-container {
+                aspect-ratio: 16/6; /* Slightly taller on mobile */
+                margin-bottom: 20px;
+            }
+
+            .blog-post:nth-child(even) .blog-content {
+                text-align: left;
+            }
+
+            .blog-post:nth-child(even) .blog-meta {
+                justify-content: flex-start;
+            }
+
+            .blog-post:nth-child(even) {
+                direction: ltr;
+            }
+        }
+        /* --- Modern Sleek Footer --- */
+        #footer {
+            background: linear-gradient(135deg, var(--ta-blue-primary) 0%, var(--ta-blue-link) 100%);
+            color: var(--ta-text-light);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 80px 50px 0;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 60px;
+            margin-bottom: 60px;
+        }
+
+        .footer-brand {
+            max-width: 400px;
+        }
+
+        .footer-logo {
+            font-family: 'DM Serif Display', serif;
+            font-size: 2.5rem;
+            color: var(--ta-text-light);
+            margin-bottom: 25px;
+            display: block;
+            text-decoration: none;
+        }
+
+        .footer-description {
+            font-family: 'Figtree', sans-serif;
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 30px;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-link {
+            width: 45px;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: var(--ta-text-light);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .social-link:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        .footer-column h3 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.4rem;
+            color: var(--ta-text-light);
+            margin-bottom: 25px;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            font-family: 'Figtree', sans-serif;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-links a:hover {
+            color: var(--ta-beige-secondary);
+            transform: translateX(5px);
+        }
+
+        .footer-contact-info {
+            font-family: 'Figtree', sans-serif;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-newsletter {
+            margin-top: 25px;
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .newsletter-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--ta-text-light);
+            border-radius: 6px;
+            font-family: 'Figtree', sans-serif;
+            backdrop-filter: blur(10px);
+        }
+
+        .newsletter-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .newsletter-input:focus {
+            outline: none;
+            border-color: var(--ta-beige-secondary);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .newsletter-button {
+            padding: 12px 20px;
+            background: var(--ta-beige-secondary);
+            color: var(--ta-blue-primary);
+            border: none;
+            border-radius: 6px;
+            font-family: 'Figtree', sans-serif;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .newsletter-button:hover {
+            background: #E5D4C1;
+            transform: translateY(-2px);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 30px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-copyright {
+            font-family: 'Figtree', sans-serif;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        .footer-legal {
+            display: flex;
+            gap: 30px;
+        }
+
+        .footer-legal a {
+            font-family: 'Figtree', sans-serif;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-legal a:hover {
+            color: var(--ta-beige-secondary);
+        }
+
+        /* Decorative elements */
+        .footer-decoration {
+            position: absolute;
+            top: -100px;
+            right: -100px;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .footer-decoration-2 {
+            position: absolute;
+            bottom: -150px;
+            left: -150px;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .footer-container {
+                padding: 60px 25px 0;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                text-align: center;
+            }
+            
+            .footer-brand {
+                max-width: none;
+            }
+            
+            .footer-social {
+                justify-content: center;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+            
+            .footer-legal {
+                gap: 20px;
+            }
+            
+            .newsletter-form {
+                flex-direction: column;
+            }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .site-header {
+                padding: 20px 25px;
+            }
+            .site-header nav a {
+                margin-left: 15px;
+                font-size: 0.85rem;
+            }
+            .hero-text-layout {
+                flex-direction: column;
+                gap: 20px;
+            }
+            .hero-text-left, .hero-text-right {
+                text-align: center;
+                flex-basis: auto;
+            }
+            .center-image-container {
+                width: 60vw; /* Larger on mobile for 16:9 */
+                max-width: 400px;
+            }
+            .sticky-layout-container {
+                flex-direction: column;
+                gap: 40px;
+            }
+            .sticky-image-column {
+                flex: none;
+            }
+            .sticky-image-element {
+                position: relative;
+                top: auto;
+                max-height: 60vh;
+            }
+            
+            /* Purple section mobile adjustments */
+            .purple-text-content {
+                width: 100%;
+                padding: 60px 30px 40px;
+                position: absolute;
+                bottom: 0;
+                background: linear-gradient(transparent, rgba(139, 92, 246, 0.85) 10%, rgba(168, 85, 247, 0.95) 50%);
+                z-index: 60;
+                height: 60%;
+                justify-content: flex-end;
+            }
+            .purple-images-container {
+                width: 100%;
+                height: 100vh;
+                position: absolute;
+                right: 0;
+                top: 0;
+            }
+            .purple-rotating-circle {
+                left: 50%;
+                top: 25%;
+                width: 100px;
+                height: 100px;
+            }
+            .purple-section-indicator {
+                right: 20px;
+                gap: 10px;
+            }
+        }
+
+
+        /* ==========================================================================
+   MOBILE & TABLET RESPONSIVE CSS
+   ========================================================================== */
+
+/* Tablet Styles (768px - 1024px) */
+@media (max-width: 1024px) and (min-width: 769px) {
+    /* Header adjustments */
+    .site-header {
+        padding: 20px 40px;
+    }
+    
+    .site-header .logo {
+        font-size: 1.8rem;
+    }
+    
+    .site-header nav a {
+        margin-left: 25px;
+        font-size: 0.9rem;
+    }
+    
+    /* Hero section */
+    .hero-text-left {
+        font-size: clamp(2rem, 5vw, 4rem);
+    }
+    
+    .hero-text-right {
+        font-size: clamp(1.2rem, 3.5vw, 2.2rem);
+    }
+    
+    .center-image-container {
+        width: 35vw;
+        max-width: 400px;
+    }
+    
+    /* Intermediate section */
+    #intermediate-text-section {
+        padding: 80px 40px;
+    }
+    
+    /* Services section */
+    #slide-over-services {
+        padding: 50px 60px;
+    }
+    
+    /* Sticky section */
+    .sticky-layout-container {
+        padding: 0 40px;
+        gap: 50px;
+    }
+    
+    /* Purple section */
+    .purple-text-content {
+        padding: 0 60px;
+    }
+    
+    /* Blog section */
+    #blog-section {
+        padding: 100px 40px;
+    }
+    
+    /* Footer */
+    .footer-container {
+        padding: 80px 40px 0;
+    }
+}
+
+/* Mobile Styles (up to 768px) */
+@media (max-width: 768px) {
+    /* General mobile optimizations */
+    body {
+        font-size: 16px; /* Ensure readable font size */
+    }
+    
+    /* Header - Mobile Navigation */
+    .site-header {
+        padding: 15px 20px;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+    }
+    
+    .site-header.scrolled {
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(25px);
+        box-shadow: 0 4px 30px rgba(0,0,0,0.15);
+    }
+    
+    .site-header .logo {
+        font-size: 1.6rem;
+    }
+    
+    .site-header nav {
+        display: none; /* Hide navigation on mobile - you may want to add a hamburger menu */
+    }
+    
+    .site-header .book-now-btn {
+        margin-left: 0;
+        padding: 8px 16px;
+        font-size: 0.85rem;
+    }
+    
+    /* Hero Section Mobile */
+    #hero-section {
+        height: 100vh;
+        min-height: 600px; /* Ensure minimum height */
+    }
+    
+    .hero-text-layout {
+        flex-direction: column;
+        gap: 30px;
+        padding: 0 20px;
+        text-align: center;
+    }
+    
+    .hero-text-left, 
+    .hero-text-right {
+        text-align: center;
+        flex-basis: auto;
+        width: 100%;
+    }
+    
+    .hero-text-left {
+        font-size: clamp(2rem, 8vw, 3.5rem);
+        order: 1;
+    }
+    
+    .hero-text-right {
+        font-size: clamp(1.2rem, 5vw, 2rem);
+        order: 3;
+    }
+    
+    .center-image-container {
+        width: 80vw;
+        max-width: 350px;
+        order: 2;
+        margin: 20px 0;
+        aspect-ratio: 16 / 10; /* Slightly taller aspect ratio for mobile */
+    }
+    
+    /* Intermediate Text Section */
+    #intermediate-text-section {
+        min-height: 50vh;
+        padding: 60px 25px;
+    }
+    
+    #intermediate-text-section h2 {
+        font-size: clamp(1.8rem, 6vw, 2.8rem);
+        margin-bottom: 15px;
+    }
+    
+    #intermediate-text-section p {
+        font-size: clamp(1rem, 3vw, 1.1rem);
+        line-height: 1.6;
+    }
+    
+    /* Services Section Mobile */
+    #slide-over-services {
+        height: auto;
+        min-height: 100vh;
+        padding: 60px 25px;
+        text-align: center;
+    }
+    
+    #slide-over-services .section-title {
+        font-size: clamp(2rem, 7vw, 3rem);
+        margin-bottom: 30px;
+        text-align: center;
+    }
+    
+    .ta-service-link {
+        font-size: clamp(1.4rem, 5vw, 2rem);
+        margin-bottom: 25px;
+        text-align: center;
+        display: block;
+        padding: 20px;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        transition: all 0.3s ease;
+    }
+    
+    .ta-service-link:hover {
+        background: rgba(255, 255, 255, 0.15);
+        transform: translateY(-2px);
+    }
+    
+    .ta-service-link::after {
+        display: none; /* Hide arrow on mobile */
+    }
+    
+    .ta-service-link span.description {
+        font-size: clamp(0.9rem, 2.5vw, 1rem);
+        margin-top: 10px;
+        max-width: none;
+        text-align: center;
+    }
+    
+    /* Sticky Image & Text Section Mobile */
+    #sticky-image-text-section {
+        padding: 60px 0;
+    }
+    
+    .sticky-layout-container {
+        flex-direction: column;
+        gap: 30px;
+        padding: 0 25px;
+    }
+    
+    .sticky-image-column {
+        flex: none;
+        order: -1; /* Image first on mobile */
+    }
+    
+    .sticky-image-element {
+        position: relative;
+        top: auto;
+        max-height: 50vh;
+        margin-bottom: 30px;
+    }
+    
+    .text-content-column {
+        padding-top: 0;
+    }
+    
+    .text-block {
+        padding-bottom: 40px; /* Reduced padding on mobile */
+        margin-bottom: 30px;
+    }
+    
+    .text-block:last-child {
+        padding-bottom: 0;
+    }
+    
+    .text-block h3 {
+        font-size: clamp(1.4rem, 4vw, 2rem);
+        margin-bottom: 12px;
+    }
+    
+    .text-block p {
+        font-size: clamp(0.95rem, 2.5vw, 1.05rem);
+        line-height: 1.7;
+        margin-bottom: 1.2em;
+    }
+    
+    /* Purple Section Mobile - Enhanced */
+    #purple-section {
+        height: 100vh;
+        min-height: 600px;
+    }
+    
+    .purple-section-container {
+        height: 100vh;
+        flex-direction: column;
+    }
+    
+    .purple-text-content {
+        width: 100%;
+        height: 50%;
+        padding: 30px 25px;
+        position: absolute;
+        bottom: 0;
+        background: linear-gradient(
+            transparent 0%, 
+            rgba(30, 34, 170, 0.7) 20%, 
+            rgba(30, 34, 170, 0.9) 60%, 
+            rgba(30, 34, 170, 0.95) 100%
+        );
+        backdrop-filter: blur(10px);
+        z-index: 60;
+        justify-content: flex-end;
+        padding-bottom: 60px;
+    }
+    
+    .purple-number {
+        font-size: 1rem;
+        margin-bottom: 15px;
+    }
+    
+    .purple-title {
+        font-size: clamp(2.5rem, 8vw, 4rem);
+        margin-bottom: 20px;
+    }
+    
+    .purple-description {
+        font-size: clmp(1rem, 3vw, 1.2rem);
+        max-width: none;
+        line-height: 1.5;
+    }
+    
+    .purple-images-container {
+        width: 100%;
+        height: 100vh;
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+    
+    .purple-rotating-circle {
+        left: 50%;
+        top: 20%;
+        width: 80px;
+        height: 80px;
+        z-index: 55;
+    }
+    
+    .purple-rotating-circle text {
+        font-size: 8px;
+        letter-spacing: 2px;
+    }
+    
+    .purple-section-indicator {
+        right: 20px;
+        gap: 8px;
+        opacity: 1; /* Always visible on mobile */
+    }
+    
+    .purple-indicator-dot {
+        width: 10px;
+        height: 10px;
+    }
+    
+    /* Blog Section Mobile */
+    #blog-section {
+        padding: 80px 25px;
+    }
+    
+    .blog-section-header {
+        margin-bottom: 50px;
+    }
+    
+    .blog-section-header h2 {
+        font-size: clamp(2.2rem, 7vw, 3.5rem);
+        margin-bottom: 15px;
+    }
+    
+    .blog-section-header p {
+        font-size: clamp(1rem, 2.5vw, 1.2rem);
+        line-height: 1.5;
+    }
+    
+    .blog-grid {
+        gap: 50px;
+    }
+    
+    .blog-image-container {
+        aspect-ratio: 16/8; /* Taller aspect ratio for mobile */
+        margin-bottom: 20px;
+        border-radius: 8px;
+    }
+    
+    .blog-content {
+        padding: 0 10px;
+    }
+    
+    .blog-meta {
+        gap: 15px;
+        margin-bottom: 12px;
+        flex-wrap: wrap;
+    }
+    
+    .blog-category,
+    .blog-date {
+        font-size: 0.85rem;
+    }
+    
+    .blog-title {
+        font-size: clamp(1.6rem, 5vw, 2.2rem);
+        margin-bottom: 15px;
+        line-height: 1.3;
+    }
+    
+    .blog-excerpt {
+        font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+        line-height: 1.6;
+        margin-bottom: 20px;
+    }
+    
+    .blog-read-more {
+        font-size: 0.95rem;
+    }
+    
+    /* Remove alternating layout on mobile */
+    .blog-post:nth-child(even) {
+        direction: ltr;
+    }
+    
+    .blog-post:nth-child(even) .blog-content {
+        direction: ltr;
+        text-align: left;
+    }
+    
+    .blog-post:nth-child(even) .blog-meta {
+        justify-content: flex-start;
+    }
+    
+    /* Footer Mobile */
+    #footer {
+        overflow-x: hidden;
+    }
+    
+    .footer-container {
+        padding: 60px 25px 0;
+    }
+    
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: 35px;
+        text-align: center;
+    }
+    
+    .footer-brand {
+        max-width: none;
+        margin-bottom: 20px;
+    }
+    
+    .footer-logo {
+        font-size: 2rem;
+        margin-bottom: 20px;
+    }
+    
+    .footer-description {
+        font-size: 1rem;
+        line-height: 1.6;
+        margin-bottom: 25px;
+    }
+    
+    .footer-social {
+        justify-content: center;
+        gap: 12px;
+    }
+    
+    .social-link {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .footer-column h3 {
+        font-size: 1.2rem;
+        margin-bottom: 20px;
+    }
+    
+    .footer-links li {
+        margin-bottom: 10px;
+    }
+    
+    .footer-links a {
+        font-size: 0.95rem;
+        justify-content: center;
+    }
+    
+    .footer-contact-info {
+        font-size: 0.9rem;
+        margin-bottom: 12px;
+        justify-content: center;
+    }
+    
+    .newsletter-form {
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .newsletter-input {
+        padding: 14px 16px;
+        font-size: 16px; /* Prevent zoom on iOS */
+    }
+    
+    .newsletter-button {
+        padding: 14px 20px;
+        font-size: 0.95rem;
+    }
+    
+    .footer-bottom {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+        padding: 25px 0;
+    }
+    
+    .footer-copyright {
+        font-size: 0.85rem;
+    }
+    
+    .footer-legal {
+        gap: 20px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    
+    .footer-legal a {
+        font-size: 0.85rem;
+    }
+    
+    /* Touch optimization */
+    .ta-service-link,
+    .blog-read-more,
+    .footer-links a,
+    .social-link,
+    .newsletter-button,
+    .book-now-btn {
+        min-height: 44px; /* iOS recommended touch target */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    /* Prevent horizontal scroll */
+    .hero-content-wrapper,
+    .sticky-layout-container,
+    .blog-container,
+    .footer-container {
+        max-width: 100vw;
+        overflow-x: hidden;
+    }
+}
+
+/* Small Mobile Styles (up to 480px) */
+@media (max-width: 480px) {
+    /* Even more compact for small screens */
+    .site-header {
+        padding: 12px 15px;
+    }
+    
+    .site-header .logo {
+        font-size: 1.4rem;
+    }
+    
+    .site-header .book-now-btn {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
+    
+    .hero-text-left {
+        font-size: clamp(1.8rem, 9vw, 2.8rem);
+        line-height: 1.1;
+    }
+    
+    .hero-text-right {
+        font-size: clamp(1rem, 5vw, 1.6rem);
+    }
+    
+    .center-image-container {
+        width: 85vw;
+        max-width: 300px;
+    }
+    
+    #intermediate-text-section {
+        padding: 50px 20px;
+    }
+    
+    #slide-over-services {
+        padding: 50px 20px;
+    }
+    
+    .ta-service-link {
+        padding: 15px;
+        margin-bottom: 20px;
+    }
+    
+    .sticky-layout-container {
+        padding: 0 20px;
+    }
+    
+    .purple-text-content {
+        padding: 25px 20px 50px;
+    }
+    
+    .purple-rotating-circle {
+        width: 70px;
+        height: 70px;
+    }
+    
+    .purple-rotating-circle text {
+        font-size: 7px;
+        letter-spacing: 1px;
+    }
+    
+    #blog-section {
+        padding: 60px 20px;
+    }
+    
+    .footer-container {
+        padding: 50px 20px 0;
+    }
+    
+    .footer-content {
+        gap: 30px;
+    }
+}
+
+/* Landscape orientation fixes for mobile */
+@media (max-width: 768px) and (orientation: landscape) {
+    #hero-section {
+        height: auto;
+        min-height: 100vh;
+        padding: 80px 0 40px;
+    }
+    
+    .hero-text-layout {
+        position: relative;
+        transform: none;
+        padding: 20px;
+    }
+    
+    .purple-text-content {
+        height: 40%;
+        padding-bottom: 40px;
+    }
+    
+    .purple-rotating-circle {
+        top: 15%;
+    }
+}
+    </style>
 </head>
 <body>
-  <!-- Loader -->
-  <div class="page-loader">
-    <div class="page-loader--bg-a"></div>
-    <div class="page-loader--bg-b">
-        <!-- <div class="sspattern-2"></div> -->
-    </div>
-    <div class="page-loader--and">
-        <svg viewBox="0 0 100 100">
-<path style="fill: none; stroke-width: 6; stroke-linecap: round; stroke-miterlimit: 10; stroke-dashoffset: 286px; stroke-dasharray: 286, 286;" d="M58.6 26.1c.6-3.4.7-6.8-.4-10.2C56 9.1 49.7 5.4 42.7 6.8 36.2 8 31.3 14.3 31.8 21c.4 4.5 2 8.4 6.2 10.8.2.1.5.2.5.5-.1.3-.4.4-.7.5-2.8 1.2-5.5 2.6-8.1 4.1-4 2.3-7.4 5.5-9.9 9.4-13 20.5.9 45.3 22.8 47.1 16.8 1.4 31.5-11 32.9-27.8.3-3.2-.1-6.4-.7-9.5-.2-.9-.6-1.3-1.5-1.3-1.9-.1-3.9-.1-6-.1-2 .1-4.2-.1-6.4.1-4.1.5-7.5 2.5-10.7 4.9l-3.6 2.7c-.5.4-1.1.7-1.8.6-1.5-.2 7.2-8.1 13.8-10.5 2.5-.9 5-1.3 7.7-1.4 1.9 0 3.8-.1 5.6 0 4.7.3 9.1-.9 13.2-3.2"></path>
-</svg>        </div>
-    
-</div>
 
-  <!-- Fixed Navigation -->
-  <nav class="main-nav">
-    <div class="nav-container">
-      <div class="logo-container">
-        <img src="https://tomasarsov.cz/wp-content/uploads/2021/06/tomas_arsov_logo_blue1.png" alt="Tomáš Arsov" class="nav-logo">
-      </div>
-      <div class="nav-items">
-        <a href="#home" class="nav-item">Domů</a>
-        <a href="#services" class="nav-item">Služby</a>
-        <a href="#about" class="nav-item">O nás</a>
-        <a href="#team" class="nav-item">Tým</a>
-        <a href="#blog" class="nav-item">Blog</a>
-        <a href="https://rezervace.tomasarsov.cz/cms/reservations/business/1/categories" class="nav-button">Rezervace</a>
-      </div>
-    </div>
-  </nav>
-
- <!-- Updated Hero Section with Expanding Video -->
-<section class="hero" id="home">
-    <div class="hero-background"></div>
-    <div class="hero-overlay"></div>
-    
-    <!-- Content Container -->
-    <div class="hero-content-wrapper">
-      <!-- Text Content -->
-      <div class="hero-content">
-        <h1 class="split-text">Tomáš Arsov</h1>
-        <h2 class="split-text">Hair & Beauty Institute</h2>
-         
+    <header class="site-header">
+        <a href="#hero-section" class="logo">Tomáš Arsov</a>
         
-      </div>
-      
-      <!-- Expanding Video Container -->
-      <div class="expanding-video-container">
-        <video class="expanding-video" muted loop playsinline>
-          <source src="https://your-video-url.mp4" type="video/mp4">
-        </video>
-        <div class="video-overlay-gradient"></div>
-      </div>
-    </div>
-    
-    <!-- Scroll indicator -->
-    <div class="scroll-indicator">
-      <span>Objevte více</span>
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12 5V19M12 19L19 12M12 19L5 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </div>
-    
-    <!-- Decorative elements -->
-    <div class="scissors-animation left">
-      <img src="https://tomasarsov.cz/wp-content/uploads/2021/06/tomas_arsov_logo_blue1.png" alt="Tomáš Arsov scissors" class="brand-scissors">
-    </div>
-    <div class="scissors-animation right">
-      <img src="https://tomasarsov.cz/wp-content/uploads/2021/06/tomas_arsov_logo_blue1.png" alt="Tomáš Arsov scissors" class="brand-scissors flip-horizontal">
-    </div>
-  </section>
-
-  <!-- Intro Section with Parallax -->
-  <section class="intro-section" id="intro">
-    <div class="parallax-bg"></div>
-    <div class="intro-content">
-      <div class="line-decoration"></div>
-      <h2 class="section-title reveal-text" style="color: #1E22AA;">Vítejte v místě, kde se vlasy stávají<br>uměleckým dílem</h2>
-      <p class="reveal-text" style="color: #1E22AA;">Nabízíme exkluzivní služby, které jsou spojením talentu, <span class="highlight">vášně</span> a mnohaletých zkušeností. V našem salonu prožijete jedinečný zážitek, který vás naplní <span class="highlight">pocitem sebevědomé krásy</span>.</p>
-      <div class="floating-element" id="floating-comb">
-        <img src="https://tomasarsov.cz/wp-content/uploads/2021/06/tomas_arsov_logo_blue1.png" alt="Tomáš Arsov logo" class="floating-logo">
-      </div>
-    </div>
-    <div class="scroll-progress">
-      <div class="progress-bar"></div>
-    </div>
-  </section>
-
-
-
-  <section class="tv-section">
-    <div class="tv-content">
-      <div class="tv-left">
-        <img src="https://tomasarsov.cz/wp-content/uploads/2021/06/tomas-novy.png" alt="Tomáš Arsov v akci" class="tv-image">
-      </div>
-      <div class="tv-right">
-        <h2 class="tv-title reveal-text">Tomáš Arsov<br>v akci</h2>
-        <p class="tv-time reveal-text">21:55 na TV Barrandov</p>
-        <p class="tv-day reveal-text">Každé pondělí</p>
-        <a href="#" class="btn-primary">Více zde</a>
-      </div>
-    </div>
-  </section>
-
-  
-
-  <!-- Services Section -->
-  <section class="services-section" id="services">
-    <div class="container">
-      <h2 class="section-title reveal-text">Naše služby</h2>
-      <p class="section-subtitle reveal-text">Objevte komplexní péči o vaše vlasy i pleť</p>
-      
-      <div class="services-grid">
-        <div class="service-item" data-speed="0.5">
-          <div class="service-icon">
-            
-          </div>
-          <h3>Dámský střih</h3>
-          <p>Profesionální střihy přizpůsobené vašemu stylu a typu vlasů. Používáme nejmodernější techniky a přístupy.</p>
-          <div class="service-hover-bg"></div>
+        <div class="header-actions">
+            <a href="#" class="book-now-btn">Rezervace -></a>
         </div>
-        
-        <div class="service-item" data-speed="0.7">
-          <div class="service-icon">
-           
-          </div>
-          <h3>Barvení</h3>
-          <p>Moderní barvící techniky pro dokonalý výsledek a zdravý vzhled. Od jemných přelivů až po výrazné změny.</p>
-          <div class="service-hover-bg"></div>
-        </div>
-        
-        <div class="service-item" data-speed="0.3">
-          <div class="service-icon">
-            
-          </div>
-          <h3>Styling</h3>
-          <p>Kreativní styling pro každodenní nošení i speciální příležitosti. Vyčarujeme účes přesně podle vašich představ.</p>
-          <div class="service-hover-bg"></div>
-        </div>
-        
-        <div class="service-item" data-speed="0.6">
-          <div class="service-icon">
-           
-          </div>
-          <h3>Kosmetika</h3>
-          <p>Komplexní kosmetické služby pro vaši pleť a celkovou krásu. Používáme produkty nejvyšší kvality.</p>
-          <div class="service-hover-bg"></div>
-        </div>
-        
-        <div class="service-item" data-speed="0.4">
-          <div class="service-icon">
-            
-          </div>
-          <h3>Prodlužování vlasů</h3>
-          <p>Specializujeme se na profesionální prodlužování vlasů s využitím nejlepších metod a materiálů.</p>
-          <div class="service-hover-bg"></div>
-        </div>
-        
-        <div class="service-item" data-speed="0.8">
-          <div class="service-icon">
-           
-          </div>
-          <h3>Poradenství</h3>
-          <p>Nabízíme odborné poradenství v oblasti péče o vlasy i vlasovou pokožku včetně diagnostiky a doporučení.</p>
-          <div class="service-hover-bg"></div>
-        </div>
-      </div>
-    </div>
-    
-    <!-- Floating Objects -->
-    <div class="floating-scissors-container">
-      <div class="floating-scissors" id="scissors-1">
-        <img src="https://tomasarsov.cz/wp-content/uploads/2021/06/tomas_arsov_logo_blue1.png" alt="Tomáš Arsov logo" class="floating-icon">
-      </div>
-      <div class="floating-scissors" id="scissors-2">
-        <img src="https://tomasarsov.cz/wp-content/uploads/2021/06/tomas_arsov_logo_blue1.png" alt="Tomáš Arsov logo" class="floating-icon flip-horizontal">
-      </div>
-      <div class="floating-bottle" id="bottle-1">
-        <img src="https://tomasarsov.cz/wp-content/uploads/2021/06/tomas_arsov_logo_blue1.png" alt="Tomáš Arsov logo" class="floating-icon small-icon">
-      </div>
-    </div>
-  </section>
+    </header>
 
-  <!-- Special Offers Section -->
-  <section class="offers-section">
-    <div class="offers-container">
-      <div class="offers-header">
-        <h2 class="reveal-text">Nejnovější na blogu</h2>
-      </div>
-      <div class="offers-grid">
-        <div class="offer-card" data-index="1">
-          <div class="offer-card-inner">
-            <div class="offer-image">
-              <img src="https://tomasarsov.cz/wp-content/uploads/2025/04/Skoleni-banner-eshop-1600x1600-1.jpg" alt="Mistrovské školení">
+    <main id="main-content">
+        <section id="hero-section">
+            <div class="hero-content-wrapper">
+                <div class="hero-text-layout">
+                    <div class="hero-text-left">VAŠE VLASY,<br>NAŠE VÁŠEŇ</div>
+                    <div class="hero-text-right">OBJEVTE KRÁSU,<br>KTERÁ VYDRŽÍ</div>
+                </div>
+                <div class="center-image-container">
+                    <img src="https://images.pexels.com/photos/15723344/pexels-photo-15723344/free-photo-of-couple-of-tourists-with-arms-spread-at-the-edge-of-a-volcanic-crater-with-a-lake.jpeg?auto=compress&cs=tinysrgb&w=1200&lazy=load" alt="Tomáš Arsov - Hair Institute">
+                </div>
             </div>
-            <div class="offer-content">
-              <h3>Mistrovské školení, které posune vaše umění o úroveň výš</h3>
-              <p>Exkluzivní příležitost s Tomášem Arsovem 8. června 2025</p>
-              <a href="#" class="btn-secondary">Více informací</a>
-            </div>
-          </div>
-        </div>
-        <div class="offer-card" data-index="2">
-          <div class="offer-card-inner">
-            <div class="offer-image">
-              <img src="https://tomasarsov.cz/wp-content/uploads/2025/03/1600x1600_modra.jpg" alt="Akce barvení a střih">
-            </div>
-            <div class="offer-content">
-              <h3>Exkluzivní nabídka: Barvení + střih ZDARMA</h3>
-              <p>Limitovaná akce pro nové zákazníky. Proměňte svůj vzhled s naší speciální nabídkou.</p>
-              <a href="#" class="btn-secondary">Více informací</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="view-all-button">
-        <a href="/blog" class="btn-primary">Všechny články</a>
-      </div>
-    </div>
-  </section>
+        </section>
 
-  <!-- About Section with Parallax -->
-  <section class="about-section" id="about">
-    <div class="about-parallax-container">
-      <div class="about-bg-layer" data-speed="0.3"></div>
-      <div class="about-content-container">
-        <div class="about-content">
-          <h2 class="section-title reveal-text">PRÉMIOVÉ KADEŘNICTVÍ...</h2>
-          <div class="about-text-container">
-            <p class="stagger-text">V našem kadeřnictví vás čeká harmonické spojení talentu a mnohaletých zkušeností nejlepších kadeřníků. Profesionálové pod vedením Tomáše Arsova dnes a denně pečují o vaši spokojenost.</p>
-            <p class="stagger-text">Radí s výběrem účesu, zrealizují vaši představu a snaží se, aby byla každá návštěva dokonalým zážitkem. Uvolněte se a užijte si to. Věříme, že z kadeřnictví odejdete s úsměvem na tváři a s pocitem sebevědomé krásy.</p>
-            <p class="stagger-text">S týmem odborníků - špičkových kadeřníků, vědců i lékařů vytváříme netradiční řešení pro profesionální i domácí vlasovou péči. Vyvíjíme a vyrábíme kvalitní a dostupné produkty, které obsahuje jen to co mají. Nic navíc.</p>
-            <a href="/sluzby" class="btn-primary">Ceník kadeřnictví</a>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="about-image-container">
-      <img src="https://tomasarsov.cz/wp-content/uploads/2024/08/6-4.jpg" alt="Tomáš Arsov Salon" class="about-image">
-    </div>
-  </section>
+        <section id="intermediate-text-section">
+            <h2>Vítejte v Institutu Tomáš Arsov</h2>
+            <p>Jsme více než jen kadeřnický salon. Jsme místem, kde se umění setkává s vědou a péče o vlasy dosahuje nové úrovně. Náš tým expertů je připraven Vám poskytnout nejen dokonalý střih a barvu, ale také komplexní poradenství pro zdraví a krásu Vašich vlasů.</p>
+        </section>
 
-  <!-- Team Section with Parallax -->
-  <section class="team-section" id="team">
-    <div class="parallax-background"></div>
-    <div class="team-content">
-      <h2 class="section-title reveal-text">TOMAS ARSOV</h2>
-      <div class="team-info">
-        <div class="team-image-container">
-          <img src="https://tomasarsov.cz/wp-content/uploads/2021/06/tomas-novy.png" alt="Tomáš Arsov" class="team-image">
-        </div>
-        <div class="team-text">
-          <p class="stagger-text">Jsme česká značka založena v Praze v roce 2013 předním českým kadeřníkem a vyhledávaným odborníkem Tomášem Arsovem.</p>
-          <p class="stagger-text">Jsme tu proto, abychom vám pomohli lépe porozumět vlastním vlasům i vlasové pokožce a ukázali vám, jak o ně správně pečovat. Abyste se ve svých vlasech cítili skvěle, atraktivně a sami sebou.</p>
-          <p class="stagger-text">Boříme mýty a nebojíme se říkat i nepříjemnou pravdu. Vytváříme edukativní obsah pro širokou veřejnost zaměřený na správnou domácí péči o vlasy a vlasovou pokožku.</p>
-          <p class="stagger-text highlight-text">Nejsme pro všechny. Ale jsme tu pro vás, pokud to skutečně chcete.</p>
-          <div class="team-signature">
-            <img src="https://tomasarsov.cz/wp-content/uploads/2021/06/podpis_TA.png" alt="Podpis Tomáš Arsov" class="signature">
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Testimonials with 3D Rotation -->
-  <section class="testimonials-section">
-    <div class="container">
-      <h2 class="section-title reveal-text">Co o nás říkají klienti</h2>
-      <div class="testimonials-container">
-        <div class="testimonial-card" id="testimonial-1">
-          <div class="testimonial-content">
-            <div class="quote-mark">"</div>
-            <p>Můj nejoblíbenější kadeřnický salon v Praze. Profesionální přístup, perfektní výsledek a vždy skvělá atmosféra. Doporučuji!</p>
-            <div class="testimonial-author">— Martina K.</div>
-          </div>
-        </div>
-        <div class="testimonial-card" id="testimonial-2">
-          <div class="testimonial-content">
-            <div class="quote-mark">"</div>
-            <p>Konečně jsem našla kadeřníka, který umí dokonale pracovat s mými vlnitými vlasy. Po dlouhých letech hledání jsem spokojená!</p>
-            <div class="testimonial-author">— Jana S.</div>
-          </div>
-        </div>
-        <div class="testimonial-card" id="testimonial-3">
-          <div class="testimonial-content">
-            <div class="quote-mark">"</div>
-            <p>Tomáš a jeho tým odvedli skvělou práci s mými vlasy. Kosmetické ošetření bylo také výborné. Vřele doporučuji každému!</p>
-            <div class="testimonial-author">— Pavel M.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Call to Action -->
-  <section class="cta-section" id="cta">
-    <div class="container">
-      <div class="cta-content">
-        <h2 class="reveal-text">Rezervujte si termín</h2>
-        <p class="reveal-text">Uvolněte se a užijte si to. Věříme, že z kadeřnictví odejdete s úsměvem na tváři a s pocitem sebevědomé krásy.</p>
-        <a href="https://rezervace.tomasarsov.cz/cms/reservations/business/1/categories" class="cta-button">Online rezervace</a>
-      </div>
-    </div>
-   
-  </section>
-
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="footer-content">
-      <div class="footer-logo">
-        <img src="https://tomasarsov.cz/wp-content/uploads/2021/06/Datovy-zdroj-1.png" alt="Tomáš Arsov" class="footer-logo-img">
-      </div>
-      <div class="footer-info">
-        <div class="footer-column">
-          <h3>Kontakt</h3>
-          <p><a href="tel:+420222222866">+420 222 222 866</a></p>
-          <p><a href="mailto:info@tomasarsov.cz">info@tomasarsov.cz</a></p>
-        </div>
-        <div class="footer-column">
-          <h3>Otevírací doba</h3>
-          <p>PO – PÁ: 8:00 – 21:00</p>
-          <p>SOBOTA: 8:00 – 18:00</p>
-          <p>NEDĚLE: zavřeno</p>
-        </div>
-        <div class="footer-column">
-          <h3>Sledujte nás</h3>
-          <div class="social-icons">
-            <a href="https://www.facebook.com/arsovinstitute/" target="_blank" rel="noopener">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M18 2H15C13.6739 2 12.4021 2.52678 11.4645 3.46447C10.5268 4.40215 10 5.67392 10 7V10H7V14H10V22H14V14H17L18 10H14V7C14 6.73478 14.1054 6.48043 14.2929 6.29289C14.4804 6.10536 14.7348 6 15 6H18V2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
+        <section id="slide-over-services">
+            <h2 class="section-title">Naše Služby</h2>
+            <a href="#" class="ta-service-link">
+                Mistrovské Střihy
+                <span class="description">Precizní střihy, které podtrhnou vaši individualitu a styl.</span>
             </a>
-            <a href="https://www.instagram.com/tomasarsovsalon/" target="_blank" rel="noopener">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M17 2H7C4.23858 2 2 4.23858 2 7V17C2 19.7614 4.23858 22 7 22H17C19.7614 22 22 19.7614 22 17V7C22 4.23858 19.7614 2 17 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M16 11.3701C16.1234 12.2023 15.9813 13.0523 15.5938 13.7991C15.2063 14.5459 14.5932 15.1515 13.8416 15.5297C13.0901 15.908 12.2385 16.0397 11.4078 15.906C10.5771 15.7723 9.80977 15.3801 9.21485 14.7852C8.61993 14.1903 8.22774 13.4229 8.09406 12.5923C7.96039 11.7616 8.09206 10.91 8.47033 10.1584C8.84861 9.40691 9.45404 8.7938 10.2009 8.4063C10.9477 8.0188 11.7977 7.87665 12.63 8.00006C13.4789 8.12594 14.2649 8.52152 14.8717 9.12836C15.4785 9.73521 15.8741 10.5211 16 11.3701Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M17.5 6.5H17.51" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
+            <a href="#" class="ta-service-link">
+                Barvení & Techniky
+                <span class="description">Od přirozených tónů po avantgardní looky s nejmodernějšími technikami.</span>
             </a>
-            <a href="https://www.youtube.com/channel/UCDqHZtVwhe2u0m93AmQCCBg" target="_blank" rel="noopener">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M22.5401 6.42C22.4213 5.94541 22.1794 5.51057 21.8387 5.15941C21.4979 4.80824 21.0708 4.55318 20.6001 4.42C18.8801 4 12.0001 4 12.0001 4C12.0001 4 5.12008 4 3.40008 4.46C2.92933 4.59318 2.50226 4.84824 2.16151 5.19941C1.82076 5.55057 1.57887 5.98541 1.46008 6.46C1.14579 8.20556 0.991808 9.97631 1.00008 11.75C0.988361 13.537 1.14225 15.3213 1.46008 17.08C1.59104 17.5398 1.83839 17.9581 2.17823 18.2945C2.51806 18.6308 2.93821 18.8738 3.40008 19C5.12008 19.46 12.0001 19.46 12.0001 19.46C12.0001 19.46 18.8801 19.46 20.6001 19C21.0708 18.8668 21.4979 18.6118 21.8387 18.2606C22.1794 17.9094 22.4213 17.4746 22.5401 17C22.8524 15.2676 23.0063 13.5103 23.0001 11.75C23.0118 9.96295 22.8579 8.1787 22.5401 6.42Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M9.75 15.02L15.5 11.75L9.75 8.48001V15.02Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
+            <a href="#" class="ta-service-link">
+                Prodlužování Vlasů
+                <span class="description">Luxusní prodloužení vlasů pro objem a délku snů.</span>
             </a>
+            <a href="#" class="ta-service-link">
+                Péče & Regenerace
+                <span class="description">Hloubková péče a rituály pro zdravé a zářivé vlasy.</span>
+            </a>
+        </section>
+
+        <section id="sticky-image-text-section">
+          <div class="sticky-layout-container">
+              <div class="sticky-image-column">
+                  <div class="sticky-image-element">
+                      <img src="https://via.placeholder.com/600x800/DBC8B6/1E22AA?text=Péče+o+Vlasy" alt="Hair care at Tomas Arsov">
+                  </div>
+              </div>
+              <div class="text-content-column">
+                  <div class="text-block">
+                      <h3>Konzultace na Míru</h3>
+                      <p class="paragraph-reveal">Každá návštěva začíná důkladnou konzultací. Nasloucháme vašim přáním, analyzujeme typ a stav vašich vlasů a pokožky hlavy. Společně vytvoříme plán péče a stylingu, který dokonale podtrhne vaši přirozenou krásu a bude odpovídat vašemu životnímu stylu.</p>
+                      <p class="paragraph-reveal">Naše konzultace zahrnuje analýzu struktury vlasů, posouzení zdraví pokožky hlavy a důkladné probrání vašich preferencí a očekávání. Věnujeme čas porozumění vašemu životnímu stylu, abychom mohli navrhnout řešení, které bude praktické a udržitelné.</p>
+                      <p class="paragraph-reveal">Každý klient je pro nás jedinečný, a proto vytváříme individuální plány péče. Diskutujeme o vhodných produktech pro domácí péči, frekvenci návštěv a dlouhodobých cílech pro zdraví a vzhled vašich vlasů.</p>
+                  </div>
+                  <div class="text-block">
+                      <h3>Špičkové Produkty</h3>
+                      <p class="paragraph-reveal">Používáme výhradně profesionální vlasovou kosmetiku nejvyšší kvality, včetně naší vlastní řady produktů Tomáš Arsov. Tyto produkty jsou výsledkem dlouholetého výzkumu a zkušeností, navržené tak, aby poskytovaly maximální péči, ochranu a výživu.</p>
+                      <p class="paragraph-reveal">Všechny naše produkty jsou testované dermatology a obsahují pouze přírodní ingredience nejvyšší kvality. Nepoužíváme agresivní chemikálie, parabeny ani sulfáty, které by mohly poškodit vaše vlasy nebo pokožku hlavy.</p>
+                      <p class="paragraph-reveal">Naše vlastní řada produktů je speciálně formulována pro různé typy vlasů a specifické potřeby. Od vyživujících masek po ochranné séra - každý produkt má svou roli v komplexní péči o vaše vlasy.</p>
+                  </div>
+                  <div class="text-block">
+                      <h3>Mistrovství v Technikách</h3>
+                      <p class="paragraph-reveal">Náš tým kadeřníků pravidelně absolvuje školení u světových špiček a sleduje nejnovější trendy v barvení, střizích i stylingu. Ať už toužíte po dokonalé balayage, precizním bobu, nebo extravagantním večerním účesu, naši stylisté promění vaši vizi ve skutečnost.</p>
+                      <p class="paragraph-reveal">Specializujeme se na pokročilé techniky barvení jako je balayage, ombre, babylights a color melting. Naše dovednosti v oblasti střihů zahrnují jak klasické, tak nejmodernější trendy - od precizních geometrických tvarů po jemné texturovací techniky.</p>
+                      <p class="paragraph-reveal">Pravidelně se účastníme mezinárodních veletrhů krásy a workshopů, abychom byli vždy v obraze ohledně nejnovějších trendů a technik. Investujeme do vzdělávání našeho týmu, protože věříme, že kvalita služeb je základem našeho úspěchu.</p>
+                  </div>
+                  <div class="text-block">
+                      <h3>Relaxační Prostředí</h3>
+                      <p class="paragraph-reveal">V našem salonu nejde jen o vlasy. Chceme, abyste si u nás odpočinuli a načerpali novou energii. Moderní, elegantní a zároveň útulné prostředí, šálek lahodné kávy či čaje a příjemná atmosféra jsou součástí každé vaší návštěvy.</p>
+                      <p class="paragraph-reveal">Náš salon je navržen jako oáza klidu uprostřed rušného města. Použili jsme přírodní materiály, jemné osvětlení a uklidňující barvy, které vytvářejí atmosféru luxusu a pohody. Každý detail byl pečlivě zvolen pro váš komfort.</p>
+                      <p class="paragraph-reveal">Během vaší návštěvy vám nabídneme výběr prémiových nápojů a občerstvení. Můžete si číst časopisy, poslouchat relaxační hudbu nebo si prostě jen odpočinout a nechat se hýčkat našimi zkušenými stylisty.</p>
+                  </div>
+              </div>
           </div>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <p>© 2025 Tomáš Arsov. All rights reserved.</p>
-        <p><a href="/ochrana-osobnich-udaju/">Ochrana osobních údajů</a> | <a href="https://pnhmedia.cz/" target="_blank" rel="noopener">website by pnhmedia.cz</a></p>
-      </div>
-    </div>
-  </footer>
-
-  <!-- Fixed Reservation Button -->
-  <div class="reservation-button">
-    <a href="https://rezervace.tomasarsov.cz/cms/reservations/business/1/categories" class="btn-reservation">Online rezervace</a>
-  </div>
-
-
-<style>/* Import fonts */
-    /* Import fonts */
-@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Serif+Text:ital@0;1&family=Figtree:wght@300;400;500;700&display=swap');
-
-:root {
-  /* Brand colors based on the Tomas Arsov website */
-  --color-primary: #1E22AA;    /* Blue */
-  --color-secondary: #DBC8B6;  /* Beige */
-  --color-text: #1E22AA;       /* Blue for text */
-  --color-background: #ffffff; /* White */
-  --color-accent: #474746;     /* Dark gray */
-  
-  /* Font sizes */
-  --font-size-large: clamp(3rem, 8vw, 5rem);
-  --font-size-medium: clamp(1.5rem, 4vw, 2.5rem);
-  --font-size-normal: clamp(1rem, 2vw, 1.25rem);
-  --font-size-small: clamp(0.85rem, 1.5vw, 1rem);
-  
-  /* Spacing */
-  --spacing-small: clamp(1rem, 2vw, 1.5rem);
-  --spacing-medium: clamp(2rem, 4vw, 3rem);
-  --spacing-large: clamp(3rem, 8vw, 6rem);
-  
-  /* Transition speeds */
-  --transition-fast: 0.3s;
-  --transition-medium: 0.5s;
-  --transition-slow: 0.8s;
-}
-
-/* Base Styles */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body, html {
-  font-family: 'Figtree', sans-serif;
-  color: var(--color-text);
-  background-color: var(--color-background);
-  overflow-x: hidden;
-  scroll-behavior: smooth;
-  font-weight: 300;
-  line-height: 1.6;
-}
-
-h1, h2, h3, h4 {
-  font-family: 'DM Serif Display', serif;
-  font-weight: 400;
-  line-height: 1.2;
-}
-
-h1 {
-  font-size: var(--font-size-large);
-}
-
-h2 {
-  font-size: var(--font-size-medium);
-  margin-bottom: var(--spacing-small);
-}
-
-h3 {
-  font-size: calc(var(--font-size-normal) * 1.2);
-  margin-bottom: var(--spacing-small);
-}
-
-p {
-  line-height: 1.6;
-  margin-bottom: var(--spacing-small);
-}
-
-a {
-  text-decoration: none;
-  color: inherit;
-  transition: color var(--transition-fast);
-}
-
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 var(--spacing-small);
-}
-
-section {
-  padding: var(--spacing-large) 0;
-  position: relative;
-  overflow: hidden;
-}
-
-/* Loading Screen */
-.loader {
-  position: fixed;
-  width: 100vw;
-  height: 100vh;
-  background-color: var(--color-primary);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-}
-
-.loader-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: white;
-}
-
-.loader-icon {
-  color: var(--color-secondary);
-  animation: rotate 2s infinite linear;
-}
-
-.loader-content p {
-  margin-top: 1rem;
-  font-size: var(--font-size-medium);
-  font-family: 'DM Serif Display', serif;
-}
-
-@keyframes rotate {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-/* Navigation */
-.main-nav {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 100;
-  padding: 1rem 0;
-  transition: background-color var(--transition-medium), padding var(--transition-medium);
-}
-
-.main-nav.scrolled {
-  background-color: white;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  padding: 0.5rem 0;
-}
-
-.nav-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 var(--spacing-small);
-}
-
-.logo-container {
-  flex: 0 0 auto;
-}
-
-.nav-logo {
-  height: 40px;
-  transition: height var(--transition-medium);
-}
-
-.main-nav.scrolled .nav-logo {
-  height: 30px;
-}
-
-.nav-items {
-  display: flex;
-  align-items: center;
-  gap: 2rem;
-}
-
-.nav-item {
-  color: var(--color-primary);
-  font-weight: 500;
-  position: relative;
-}
-
-.nav-item::after {
-  content: '';
-  position: absolute;
-  bottom: -5px;
-  left: 0;
-  width: 0;
-  height: 2px;
-  background-color: var(--color-secondary);
-  transition: width var(--transition-medium);
-}
-
-.nav-item:hover::after {
-  width: 100%;
-}
-
-.nav-button {
-  background-color: var(--color-primary);
-  color: white;
-  padding: 0.5rem 1.5rem;
-  border-radius: 3px;
-  font-weight: 500;
-  transition: background-color var(--transition-fast);
-}
-
-.stagger-text{
- color: #1E22AA;
-}
-
-
-.nav-button:hover {
-  background-color: var(--color-secondary);
-  color: var(--color-primary);
-}
-
-/* Hero Section */
-.hero {
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  position: relative;
-  color: var(--color-primary); /* Changed to blue to match brand */
-  overflow: hidden;
-}
-
-.hero-background {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: url('https://tomasarsov.cz/wp-content/uploads/2024/08/6-4.jpg') no-repeat center center;
-  background-size: cover;
-  z-index: -2;
-  transform: scale(1.1);
-  transition: transform 2s ease-out;
-}
-
-.hero-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
-  z-index: -1;
-}
-
-.hero-content {
-  position: relative;
-  z-index: 1;
-  max-width: 800px;
-  padding: var(--spacing-medium);
-  opacity: 0; /* Start invisible for animation */
-}
-
-.hero h1 {
-  margin-bottom: 0.2em;
-  color: var(--color-primary);
-}
-
-.hero h2 {
-  margin-bottom: 1em;
-  color: var(--color-primary);
-}
-
-.hero-tagline {
-  font-size: var(--font-size-normal);
-  margin-bottom: 2rem;
-  opacity: 0;
-  color: var(--color-primary);
-}
-
-.scroll-indicator {
-  position: absolute;
-  bottom: var(--spacing-medium);
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-size: var(--font-size-small);
-  opacity: 0; /* Start invisible for animation */
-  cursor: pointer;
-  transition: opacity var(--transition-medium);
-  color: var(--color-primary);
-}
-
-.scroll-indicator svg {
-  margin-top: 0.5em;
-  color: var(--color-primary);
-}
-
-.scissors-animation {
-  position: absolute;
-  opacity: 0.5;
-  color: var(--color-secondary);
-}
-
-.scissors-animation.left {
-  top: 30%;
-  left: 10%;
-}
-
-.scissors-animation.right {
-  bottom: 30%;
-  right: 10%;
-}
-
-.brand-scissors {
-  width: 150px;
-  height: auto;
-  opacity: 0.3;
-}
-
-.flip-horizontal {
-  transform: scaleX(-1);
-}
-
-/* Custom icon styles */
-.service-icon-img {
-  width: 50px;
-  height: auto;
-  transition: transform var(--transition-medium);
-}
-
-.floating-icon {
-  width: 80px;
-  height: auto;
-  opacity: 0.3;
-}
-
-.small-icon {
-  width: 40px;
-  height: auto;
-}
-
-.floating-logo {
-  width: 60px;
-  height: auto;
-  opacity: 0.5;
-}
-
-/* Text animation styles */
-.split-text {
-  overflow: hidden;
-}
-
-.split-text span {
-  display: inline-block;
-  opacity: 0;
-  transform: translateY(100%);
-}
-
-.reveal-text {
-  opacity: 0;
-  transform: translateY(30px);
-}
-
-/* Intro Section */
-.intro-section {
-  position: relative;
-  min-height: 80vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-}
-
-.parallax-bg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 120%;
-  background-color: var(--color-primary);
-  background-image: 
-    radial-gradient(circle at 10% 20%, rgba(219, 200, 182, 0.1) 0%, transparent 20%),
-    radial-gradient(circle at 90% 80%, rgba(219, 200, 182, 0.1) 0%, transparent 20%);
-  z-index: -1;
-}
-
-.intro-content {
-  position: relative;
-  max-width: 800px;
-  color: white;
-  text-align: center;
-  padding: var(--spacing-medium);
-}
-
-.line-decoration {
-  width: 100px;
-  height: 3px;
-  background-color: var(--color-secondary);
-  margin: 0 auto 2rem;
-}
-
-.intro-content h2 {
-  margin-bottom: 2rem;
-}
-
-.intro-content p {
-  font-size: 1.2rem;
-  line-height: 1.8;
-  margin-bottom: 2rem;
-}
-
-.highlight {
-  color: var(--color-secondary);
-  font-weight: 500;
-}
-
-.floating-element {
-  position: absolute;
-  opacity: 0.3;
-  color: var(--color-secondary);
-}
-
-#floating-comb {
-  top: 20%;
-  right: 15%;
-  transform: rotate(15deg);
-}
-
-.scroll-progress {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 3px;
-  z-index: 101;
-}
-
-.progress-bar {
-  height: 100%;
-  background-color: var(--color-secondary);
-  width: 0%;
-}
-
-/* TV Show Section */
-.tv-section {
-  background: linear-gradient(135deg, #cd5c5c, #ff69b4);
-  color: white;
-  position: relative;
-  overflow: hidden;
-}
-
-.tv-content {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 4rem var(--spacing-small);
-}
-
-.tv-left {
-  flex: 0 0 40%;
-}
-
-.tv-image {
-  width: 100%;
-  max-width: 400px;
-  border-radius: 5px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-  transform: translateX(-100px);
-  opacity: 0;
-}
-
-.tv-right {
-  flex: 0 0 55%;
-  padding: var(--spacing-medium);
-}
-
-.tv-title {
-  font-size: var(--font-size-large);
-  margin-bottom: 1rem;
-}
-
-.tv-time, .tv-day {
-  font-size: var(--font-size-medium);
-  margin-bottom: 1rem;
-}
-
-/* Services Section */
-.services-section {
-  padding: var(--spacing-large) 0;
-  position: relative;
-  background-color: white;
-}
-
-.services-section h2 {
-  text-align: center;
-  margin-bottom: 1rem;
-}
-
-.section-subtitle {
-  text-align: center;
-  margin-bottom: var(--spacing-medium);
-  font-size: var(--font-size-normal);
-}
-
-.services-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: var(--spacing-medium);
-  margin-top: var(--spacing-medium);
-}
-
-.service-item {
-  background-color: white;
-  padding: var(--spacing-medium);
-  border-radius: 5px;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
-  transition: transform var(--transition-medium), box-shadow var(--transition-medium);
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-  z-index: 1;
-}
-
-.service-item:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
-}
-
-.service-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: var(--spacing-small);
-  color: var(--color-primary);
-  transition: transform var(--transition-medium), color var(--transition-medium);
-}
-
-.service-hover-bg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: var(--color-primary);
-  z-index: -1;
-  transform: translateY(100%);
-  transition: transform var(--transition-medium);
-}
-
-.service-item:hover .service-hover-bg {
-  transform: translateY(0);
-}
-
-.service-item:hover {
-  color: white;
-}
-
-.service-item:hover .service-icon {
-  color: var(--color-secondary);
-  transform: scale(1.2);
-}
-
-.floating-scissors-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  overflow: hidden;
-}
-
-.floating-scissors, .floating-bottle {
-  position: absolute;
-  opacity: 0.3;
-  color: var(--color-primary);
-}
-
-#scissors-1 {
-  top: 20%;
-  left: 5%;
-}
-
-#scissors-2 {
-  bottom: 15%;
-  right: 8%;
-  transform: rotate(45deg);
-}
-
-#bottle-1 {
-  top: 40%;
-  right: 15%;
-}
-
-/* Offers Section */
-.offers-section {
-  background-color: var(--color-background);
-  padding: var(--spacing-large) 0;
-}
-
-.offers-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 var(--spacing-small);
-}
-
-.offers-header {
-  text-align: center;
-  margin-bottom: var(--spacing-medium);
-}
-
-.offers-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-  gap: var(--spacing-medium);
-}
-
-.offer-card {
-  border-radius: 5px;
-  overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  transition: transform var(--transition-medium);
-  transform: translateY(50px);
-  opacity: 0;
-}
-
-.offer-card:hover {
-  transform: translateY(-10px) scale(1.02);
-}
-
-.offer-card-inner {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-.offer-image {
-  height: 250px;
-  overflow: hidden;
-}
-
-.offer-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform var(--transition-slow);
-}
-
-.offer-card:hover .offer-image img {
-  transform: scale(1.1);
-}
-
-.offer-content {
-  padding: var(--spacing-medium);
-  background-color: white;
-  flex: 1;
-}
-
-.offer-content h3 {
-  margin-bottom: 1rem;
-  font-size: 1.4rem;
-}
-
-.offer-content p {
-  margin-bottom: 1.5rem;
-  color: var(--color-accent);
-}
-
-.view-all-button {
-  margin-top: var(--spacing-medium);
-  text-align: center;
-}
-
-/* Buttons */
-.btn-primary {
-  display: inline-block;
-  background-color: var(--color-primary);
-  color: white;
-  padding: 0.8em 2em;
-  border-radius: 3px;
-  font-weight: 500;
-  transition: all var(--transition-medium);
-}
-
-.btn-primary:hover {
-  background-color: var(--color-secondary);
-  color: var(--color-primary);
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-}
-
-.btn-secondary {
-  display: inline-block;
-  background-color: transparent;
-  color: var(--color-primary);
-  border: 2px solid var(--color-primary);
-  padding: 0.6em 1.5em;
-  border-radius: 3px;
-  font-weight: 500;
-  transition: all var(--transition-medium);
-}
-
-.btn-secondary:hover {
-  background-color: var(--color-primary);
-  color: white;
-  transform: translateY(-3px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-}
-
-/* About Section */
-.about-section {
-  position: relative;
-  display: flex;
-  flex-wrap: wrap;
-  overflow: hidden;
-}
-
-.about-parallax-container {
-  position: relative;
-  width: 50%;
-  min-height: 80vh;
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-}
-
-.about-bg-layer {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 120%;
-  background-color: var(--color-secondary);
-  z-index: -1;
-}
-
-.about-content-container {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--spacing-medium);
-}
-
-.about-content {
-  max-width: 600px;
-}
-
-.about-text-container {
-  margin-top: var(--spacing-medium);
-}
-
-.stagger-text {
-  opacity: 0;
-  transform: translateY(20px);
-}
-
-.about-image-container {
-  width: 50%;
-  min-height: 80vh;
-  overflow: hidden;
-}
-
-.about-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transform: scale(1.2);
-  transition: transform 2s ease-out;
-}
-
-/* Team Section */
-.team-section {
-  position: relative;
-  min-height: 90vh;
-  display: flex;
-  align-items: center;
-  color: white;
-  overflow: hidden;
-}
-
-.parallax-background {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 120%;
-  background: linear-gradient(rgba(30, 34, 170, 0.8), rgba(30, 34, 170, 0.8)), 
-              url('https://tomasarsov.cz/wp-content/uploads/2021/06/tomas-novy.png');
-  background-size: cover;
-  background-position: center;
-  z-index: -1;
-}
-
-.team-content {
-  position: relative;
-  z-index: 1;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: var(--spacing-medium);
-}
-
-.team-info {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-large);
-  margin-top: var(--spacing-medium);
-}
-
-.team-image-container {
-  flex: 0 0 40%;
-  opacity: 0;
-  transform: translateX(-50px);
-}
-
-.team-image {
-  width: 100%;
-  border-radius: 5px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-}
-
-.team-text {
-  flex: 0 0 55%;
-}
-
-.highlight-text {
-  color: var(--color-secondary);
-  font-size: 1.2rem;
-  font-weight: 500;
-}
-
-.team-signature {
-  margin-top: var(--spacing-medium);
-  opacity: 0;
-}
-
-.signature {
-  max-width: 170px;
-}
-
-/* Testimonials Section */
-.testimonials-section {
-  background-color: white;
-  padding: var(--spacing-large) 0;
-}
-
-.testimonials-container {
-  display: flex;
-  justify-content: space-between;
-  gap: var(--spacing-medium);
-  margin-top: var(--spacing-medium);
-  perspective: 1000px;
-}
-
-.testimonial-card {
-  flex: 1;
-  min-height: 300px;
-  background-color: white;
-  border-radius: 5px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  padding: var(--spacing-medium);
-  transform: rotateY(30deg) translateZ(0);
-  opacity: 0;
-  transition: transform var(--transition-medium), box-shadow var(--transition-medium);
-}
-
-.testimonial-card:hover {
-  transform: rotateY(0deg) scale(1.05) translateZ(0);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-  z-index: 2;
-}
-
-.testimonial-content {
-  position: relative;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.quote-mark {
-  position: absolute;
-  top: -20px;
-  left: -10px;
-  font-size: 5rem;
-  color: var(--color-secondary);
-  opacity: 0.3;
-  font-family: 'DM Serif Display', serif;
-}
-
-.testimonial-content p {
-  font-size: 1.1rem;
-  line-height: 1.8;
-  margin-bottom: 1.5rem;
-}
-
-.testimonial-author {
-  font-weight: 500;
-  color: var(--color-primary);
-  text-align: right;
-}
-
-/* CTA Section */
-.cta-section {
-  text-align: center;
-  padding: var(--spacing-large) 0;
-  background-color: var(--color-background);
-  position: relative;
-  overflow: hidden;
-}
-
-.cta-content {
-  max-width: 800px;
-  margin: 0 auto;
-  position: relative;
-  z-index: 1;
-}
-
-.cta-button {
-  display: inline-block;
-  background-color: var(--color-primary);
-  color: white;
-  font-size: var(--font-size-normal);
-  padding: 1em 2em;
-  border-radius: 3px;
-  cursor: pointer;
-  transition: all var(--transition-medium);
-  margin-top: var(--spacing-medium);
-  font-weight: 500;
-  text-decoration: none;
-  opacity: 0; /* Start invisible for animation */
-  transform: scale(0.8); /* Start smaller for animation */
-}
-
-.cta-button:hover {
-  background-color: var(--color-secondary);
-  color: var(--color-primary);
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-}
-
-#cta-scissors {
-  position: absolute;
-  top: 40%;
-  right: 10%;
-  transform: rotate(15deg);
-  opacity: 0.2;
-  color: var(--color-primary);
-}
-
-/* Footer */
-.footer {
-  background-color: var(--color-primary);
-  color: white;
-  padding: var(--spacing-large) 0;
-}
-
-.footer-content {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 var(--spacing-small);
-}
-
-.footer-logo {
-  text-align: center;
-  margin-bottom: var(--spacing-medium);
-}
-
-.footer-logo-img {
-  max-width: 200px;
-}
-
-.footer-info {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: var(--spacing-medium);
-  margin-bottom: var(--spacing-large);
-}
-
-.footer-column {
-  flex: 1;
-  min-width: 200px;
-}
-
-.footer-column h3 {
-  margin-bottom: 1rem;
-  color: var(--color-secondary);
-}
-
-.footer-column a {
-  color: white;
-  transition: color var(--transition-fast);
-}
-
-.footer-column a:hover {
-  color: var(--color-secondary);
-}
-
-.social-icons {
-  display: flex;
-  gap: 1rem;
-}
-
-.social-icons a {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.1);
-  transition: background-color var(--transition-fast);
-}
-
-.social-icons a:hover {
-  background-color: var(--color-secondary);
-  color: var(--color-primary);
-}
-
-.footer-bottom {
-  padding-top: var(--spacing-medium);
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 1rem;
-}
-
-.footer-bottom a {
-  color: var(--color-secondary);
-  transition: color var(--transition-fast);
-}
-
-.footer-bottom a:hover {
-  color: white;
-}
-
-/* Fixed Reservation Button */
-.reservation-button {
-  position: fixed;
-  bottom: 2rem;
-  right: 2rem;
-  z-index: 99;
-}
-
-.btn-reservation {
-  display: inline-block;
-  background-color: #FFF01F;
-  color: var(--color-primary);
-  font-weight: 600;
-  padding: 1em 2em;
-  border-radius: 50px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-  transition: all var(--transition-medium);
-}
-
-.btn-reservation:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-}
-
-/* Responsive adjustments */
-@media (max-width: 1024px) {
-  .about-section {
-    flex-direction: column;
-  }
-  
-  .about-parallax-container,
-  .about-image-container {
-    width: 100%;
-  }
-  
-  .team-info {
-    flex-direction: column;
-  }
-  
-  .team-image-container,
-  .team-text {
-    flex: 0 0 100%;
-  }
-  
-  .testimonials-container {
-    flex-direction: column;
-  }
-}
-
-@media (max-width: 768px) {
-  .nav-items {
-    display: none;
-  }
-  
-  .services-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .offers-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .tv-content {
-    flex-direction: column;
-    gap: var(--spacing-medium);
-  }
-  
-  .tv-left,
-  .tv-right {
-    flex: 0 0 100%;
-  }
-  
-  .floating-scissors,
-  .floating-bottle {
-    display: none;
-  }
-}
-.page-loader {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    z-index: 900000;
-    top: 0;
-    left: 0;
-    -webkit-transform: translateX(0);
-    transform: translateX(0);
-    opacity: 1;
-}
-
-.page-loader.is-invisible {
-    -webkit-transform: translateX(100000000%);
-    transform: translateX(100000000%);
-    opacity: 0;
-}
-
-.page-loader--bg-a {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: #1E22AA; /* Changed to primary blue */
-}
-
-.page-loader--bg-b {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: #DBC8B6; /* Changed to secondary beige */
-}
-
-.page-loader--and {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    margin: auto;
-    width: 100px;
-    height: 100px;
-}
-
-.page-loader--baseline {
-    position: absolute;
-    top: 50%;
-    left: 0;
-    right: 0;
-    z-index: 50;
-    text-align: center;
-    color: #fff;
-    -webkit-transform: translateY(80px);
-    transform: translateY(80px);
-    font-size: 10px;
-    font-size: .625rem;
-    text-transform: uppercase;
-    letter-spacing: .5em;
-}
-
-.page-loader--and path {
-    stroke: #fff; /* Keep white for contrast */
-}
-
-
-
-/* Updated Hero Section Styles */
-.hero {
-  height: 100vh;
-  position: relative;
-  color: var(--color-primary);
-  overflow: hidden;
-}
-
-.hero-background {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: url('https://tomasarsov.cz/wp-content/uploads/2024/08/6-4.jpg') no-repeat center center;
-  background-size: cover;
-  z-index: -2;
-}
-
-.hero-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
-  z-index: -1;
-}
-
-.hero-content-wrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  height: 100%;
-  padding-left: 5%;
-  z-index: 2;
-}
-
-.hero-content {
-  max-width: 600px;
-  position: relative;
-  z-index: 2;
-  opacity: 0; /* Start invisible for animation */
-}
-
-.hero-content h1 {
-  font-size: clamp(3rem, 5vw, 5rem);
-  margin-bottom: 0.2em;
-}
-
-.hero-content h2 {
-  font-size: clamp(1.5rem, 3vw, 3rem);
-  margin-bottom: 1em;
-}
-
-.hero-tagline {
-  font-size: clamp(1rem, 1.5vw, 1.25rem);
-  margin-bottom: 2rem;
-  opacity: 0;
-}
-
-.hero-cta-button {
-  display: inline-block;
-  background-color: var(--color-primary);
-  color: white;
-  padding: 0.8em 2em;
-  border-radius: 3px;
-  font-weight: 500;
-  transition: all var(--transition-medium);
-  opacity: 0;
-}
-
-.hero-cta-button:hover {
-  background-color: var(--color-secondary);
-  color: var(--color-primary);
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-}
-
-/* Expanding Video Container */
-.expanding-video-container {
-  position: fixed;
-  top: 50%;
-  left: 300px; /* Start position near text */
-  transform: translate(0, -50%);
-  width: 200px; /* Starting width */
-  height: 150px; /* Starting height */
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-  z-index: 100000; /* Extremely high z-index as requested */
-  opacity: 0; /* Start invisible for animation */
-}
-
-.expanding-video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.video-overlay-gradient {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(135deg, rgba(30, 34, 170, 0.3) 0%, transparent 100%);
-  z-index: 1;
-}
-
-/* Scroll indicator */
-.scroll-indicator {
-  position: absolute;
-  bottom: 2rem;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-size: var(--font-size-small);
-  opacity: 0;
-  cursor: pointer;
-  transition: opacity var(--transition-medium);
-  color: var(--color-primary);
-  z-index: 5;
-}
-
-.scroll-indicator span {
-  margin-bottom: 0.5rem;
-  font-weight: 500;
-}
-
-.scroll-indicator svg {
-  animation: bounce 2s infinite;
-}
-
-@keyframes bounce {
-  0%, 20%, 50%, 80%, 100% {
-    transform: translateY(0);
-  }
-  40% {
-    transform: translateY(-10px);
-  }
-  60% {
-    transform: translateY(-5px);
-  }
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .hero-content {
-    text-align: center;
-    padding: 0 2rem;
-  }
-  
-  .expanding-video-container {
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-}
-
-</style>
-  <script>// Register GSAP plugins
-  // Register GSAP plugins
-gsap.registerPlugin(ScrollTrigger, TextPlugin);
-
-// Wait for DOM and all resources to be fully loaded
-document.addEventListener('DOMContentLoaded', function() {
-    // Show loader immediately when DOM is ready
-    const loader = document.querySelector('.page-loader');
-    loader.classList.remove('is-invisible');
-    
-    // Create animation for showing the loader
-    const showLoaderTl = gsap.timeline();
-    
-    showLoaderTl.fromTo('.page-loader--bg-a', 
-        { x: '100%' }, 
-        { x: '0%', duration: 0.7, ease: "power3.inOut" }, 
-        0
-    );
-    
-    showLoaderTl.fromTo('.page-loader--bg-b', 
-        { x: '100%' }, 
-        { x: '0%', duration: 0.9, ease: "power2.inOut" }, 
-        0
-    );
-    
-    showLoaderTl.fromTo('.page-loader--and', 
-        { x: window.innerWidth/1.8 }, 
-        { x: 0, duration: 0.9, ease: "power3.inOut" }, 
-        0
-    );
-    
-    showLoaderTl.fromTo('.page-loader path', 
-        { strokeDashoffset: 286 }, 
-        { strokeDashoffset: 0, duration: 0.9, ease: "power1.inOut" }, 
-        0
-    );
-    
-    // When page is fully loaded, hide loader after a delay
-    window.addEventListener('load', function() {
-        setTimeout(function() {
-            // Create animation for hiding the loader
-            const hideLoaderTl = gsap.timeline({
-                onComplete: function() {
-                    // After animation completes, add is-invisible class
-                    loader.classList.add('is-invisible');
+        </section>
+
+        <section id="purple-section">
+            <div class="purple-section-indicator">
+                <div class="purple-indicator-dot active" data-section="0"></div>
+                <div class="purple-indicator-dot" data-section="1"></div>
+                <div class="purple-indicator-dot" data-section="2"></div>
+                <div class="purple-indicator-dot" data-section="3"></div>
+            </div>
+            
+            <!-- Rotating Circle Element -->
+            <div class="purple-rotating-circle">
+                <svg viewBox="0 0 140 140">
+                    <path id="circle-path" d="M 70, 70 m -50, 0 a 50,50 0 1,1 100,0 a 50,50 0 1,1 -100,0" fill="none"/>
+                    <text>
+                        <textPath href="#circle-path">SERVICES • SERVICES • SERVICES • </textPath>
+                    </text>
+                </svg>
+            </div>
+            
+            <div class="purple-section-container">
+                <!-- Fixed text content -->
+                <div class="purple-text-content">
+                    <div class="purple-number">01</div>
+                    <h2 class="purple-title">Sugaring</h2>
+                    <p class="purple-description">Maris Gina's AP Sugaring features the internationally acclaimed Alexandria Professional brand, renowned for its advanced and unique approach to hair removal.</p>
+                </div>
+                
+                <!-- Image container -->
+                <div class="purple-images-container">
+                    <div class="purple-image-item" data-index="0">
+                        <img src="https://images.pexels.com/photos/3997993/pexels-photo-3997993.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Sugaring Treatment">
+                    </div>
+                    <div class="purple-image-item" data-index="1">
+                        <img src="https://images.pexels.com/photos/3997991/pexels-photo-3997991.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Waxing Treatment">
+                    </div>
+                    <div class="purple-image-item" data-index="2">
+                        <img src="https://images.pexels.com/photos/3997982/pexels-photo-3997982.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Laser Treatment">
+                    </div>
+                    <div class="purple-image-item" data-index="3">
+                        <img src="https://images.pexels.com/photos/3997987/pexels-photo-3997987.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Skin Care Treatment">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="blog-section">
+            <div class="blog-section-header">
+                <h2>Naše Novinky & Tipy</h2>
+                <p>Objevte nejnovější trendy v péči o vlasy, naše odborné rady a inspiraci pro váš nový look. Sledujte náš blog pro exkluzivní obsah od našich stylistů.</p>
+            </div>
+            
+            <div class="blog-container">
+                <div class="blog-grid">
+                    <article class="blog-post">
+                        <div class="blog-image-container">
+                            <img src="https://images.pexels.com/photos/3993449/pexels-photo-3993449.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="Trendy vlasů pro jaro 2024">
+                        </div>
+                        <div class="blog-content">
+                            <div class="blog-meta">
+                                <span class="blog-category">Trendy</span>
+                                <span class="blog-date">15. března 2024</span>
+                            </div>
+                            <h3 class="blog-title">Jarní trendy vlasů 2024: Co bude letos v módě</h3>
+                            <p class="blog-excerpt">Podívejte se na nejnovější trendy v oblasti střihů a barev, které budou dominovat letošnímu jaru. Od jemných vln po odvážné pixie cuts - inspirujte se našimi tipy pro nový vzhled.</p>
+                            <a href="#" class="blog-read-more">Číst více</a>
+                        </div>
+                    </article>
+
+                    <article class="blog-post">
+                        <div class="blog-image-container">
+                            <img src="https://images.pexels.com/photos/3997991/pexels-photo-3997991.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="Péče o vlasy v zimě">
+                        </div>
+                        <div class="blog-content">
+                            <div class="blog-meta">
+                                <span class="blog-category">Péče</span>
+                                <span class="blog-date">28. února 2024</span>
+                            </div>
+                            <h3 class="blog-title">Jak pečovat o vlasy během zimních měsíců</h3>
+                            <p class="blog-excerpt">Zimní počasí může vašim vlasům uškodit. Naučte se, jak je chránit před suchem, statickou elektřinou a dalšími zimními problémy. Naše odborné rady vám pomohou udržet vlasy zdravé po celou zimu.</p>
+                            <a href="#" class="blog-read-more">Číst více</a>
+                        </div>
+                    </article>
+
+                    <article class="blog-post">
+                        <div class="blog-image-container">
+                            <img src="https://images.pexels.com/photos/3992656/pexels-photo-3992656.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="Barvy vlasů 2024">
+                        </div>
+                        <div class="blog-content">
+                            <div class="blog-meta">
+                                <span class="blog-category">Barvení</span>
+                                <span class="blog-date">10. února 2024</span>
+                            </div>
+                            <h3 class="blog-title">Nejoblíbenější barvy vlasů roku 2024</h3>
+                            <p class="blog-excerpt">Od teplých karamelových tónů po odvážné platinové blond - objevte barvy, které budou definovat rok 2024. Naši koloristé vám poradí, která barva bude nejlépe sedět právě vám.</p>
+                            <a href="#" class="blog-read-more">Číst více</a>
+                        </div>
+                    </article>
+
+                    <article class="blog-post">
+                        <div class="blog-image-container">
+                            <img src="https://images.pexels.com/photos/3997982/pexels-photo-3997982.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="Domácí péče o vlasy">
+                        </div>
+                        <div class="blog-content">
+                            <div class="blog-meta">
+                                <span class="blog-category">Rady</span>
+                                <span class="blog-date">22. ledna 2024</span>
+                            </div>
+                            <h3 class="blog-title">5 tipů pro dokonalou domácí péči o vlasy</h3>
+                            <p class="blog-excerpt">Vaše vlasy potřebují péči nejen v salonu, ale i doma. Podělíme se s vámi o naše nejlepší tipy a triky, jak udržet vlasy krásné a zdravé mezi návštěvami našeho salonu.</p>
+                            <a href="#" class="blog-read-more">Číst více</a>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <footer id="footer">
+            <div class="footer-decoration"></div>
+            <div class="footer-decoration-2"></div>
+            
+            <div class="footer-container">
+                <div class="footer-content">
+                    <div class="footer-brand">
+                        <a href="#" class="footer-logo">Tomáš Arsov</a>
+                        <p class="footer-description">
+                            Váš institut krásy, kde se umění setkává s vědou. Specializujeme se na mistrovské střihy, 
+                            moderní barvicí techniky a komplexní péči o vlasy. Vaše spokojenost je naší vášní.
+                        </p>
+                        <div class="footer-social">
+                            <a href="#" class="social-link" aria-label="Facebook">📘</a>
+                            <a href="#" class="social-link" aria-label="Instagram">📷</a>
+                            <a href="#" class="social-link" aria-label="Twitter">🐦</a>
+                            <a href="#" class="social-link" aria-label="YouTube">📺</a>
+                        </div>
+                    </div>
                     
-                    // Start the rest of the animations
-                    initAnimations();
-                }
-            });
-            
-            // Define the animations for hiding the loader
-            hideLoaderTl.fromTo('.page-loader--bg-a', 
-                { x: '0%' }, 
-                { x: '-100%', duration: 0.9, ease: "power2.inOut" }, 
-                0
-            );
-            
-            hideLoaderTl.fromTo('.page-loader--bg-b', 
-                { x: '0%' }, 
-                { x: '-100%', duration: 0.7, ease: "power3.inOut" }, 
-                0
-            );
-            
-            hideLoaderTl.fromTo('.page-loader--and', 
-                { x: 0 }, 
-                { x: -window.innerWidth/1.8, duration: 0.9, ease: "power3.inOut" }, 
-                0
-            );
-            
-            hideLoaderTl.to('.page-loader path', 
-                { strokeDashoffset: -286, duration: 0.9, ease: "power1.inOut" }, 
-                0
-            );
-        }, 2000); // 2 second delay
-    });
-});
+                    <div class="footer-column">
+                        <h3>Služby</h3>
+                        <ul class="footer-links">
+                            <li><a href="#">→ Mistrovské Střihy</a></li>
+                            <li><a href="#">→ Barvení & Techniky</a></li>
+                            <li><a href="#">→ Prodlužování Vlasů</a></li>
+                            <li><a href="#">→ Péče & Regenerace</a></li>
+                            <li><a href="#">→ Svatební Účesy</a></li>
+                            <li><a href="#">→ Poradenství</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h3>Institut</h3>
+                        <ul class="footer-links">
+                            <li><a href="#">→ O Nás</a></li>
+                            <li><a href="#">→ Náš Tým</a></li>
+                            <li><a href="#">→ Ceník</a></li>
+                            <li><a href="#">→ Galerie</a></li>
+                            <li><a href="#">→ Blog</a></li>
+                            <li><a href="#">→ Kariéra</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h3>Kontakt</h3>
+                        <div class="footer-contact-info">
+                            📍 Pražská 123, 110 00 Praha 1
+                        </div>
+                        <div class="footer-contact-info">
+                            📞 +420 123 456 789
+                        </div>
+                        <div class="footer-contact-info">
+                            ✉️ info@tomasarsov.cz
+                        </div>
+                        <div class="footer-contact-info">
+                            🕒 Po-Pá: 9:00-19:00, So: 9:00-16:00
+                        </div>
+                        
+                        <div class="footer-newsletter">
+                            <h4 style="color: var(--ta-beige-secondary); margin-bottom: 10px; font-size: 1.1rem;">Newsletter</h4>
+                            <p style="font-size: 0.9rem; margin-bottom: 15px; color: rgba(255,255,255,0.7);">
+                                Získejte tipy a novinky přímo do emailu
+                            </p>
+                            <form class="newsletter-form">
+                                <input type="email" class="newsletter-input" placeholder="váš@email.cz" required>
+                                <button type="submit" class="newsletter-button">Odeslat</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="footer-bottom">
+                    <div class="footer-copyright">
+                        © 2024 Institut Tomáš Arsov. Všechna práva vyhrazena.
+                    </div>
+                    <div class="footer-legal">
+                        <a href="#">Ochrana osobních údajů</a>
+                        <a href="#">Obchodní podmínky</a>
+                        <a href="#">Cookies</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+           
+        </section>
 
-function initAnimations() {
-    // Split text for character animations
-    const splitTextElements = document.querySelectorAll('.split-text');
-    splitTextElements.forEach(element => {
-        // Split the text into individual characters
-        const text = element.textContent;
-        const characters = text.split("");
-        element.textContent = '';
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+
+        // Clean up any existing ScrollTriggers
+        ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+
+        // Get elements
+        const siteHeader = document.querySelector('.site-header');
+        const heroSection = document.getElementById('hero-section');
+        const imageContainer = heroSection.querySelector('.center-image-container');
+        const heroTextLayout = heroSection.querySelector('.hero-text-layout');
+        const intermediateSection = document.getElementById('intermediate-text-section');
+        const slideOverServices = document.getElementById('slide-over-services');
+        const stickyImageTextSection = document.getElementById('sticky-image-text-section');
+        const textBlocks = gsap.utils.toArray('#sticky-image-text-section .text-block');
         
-        // Create a span for each character
-        characters.forEach(char => {
-            const span = document.createElement('span');
-            span.textContent = char === ' ' ? '\u00A0' : char; // Use non-breaking space for spaces
-            element.appendChild(span);
-        });
-    });
-    
-    // Hero Section Animations
-    const heroTimeline = gsap.timeline();
-    
-    // Hero background zoom animation
-    heroTimeline.to('.hero-background', {
-        scale: 1,
-        duration: 1.5,
-        ease: "power2.out"
-    }, 0);
-    
-    // Hero content fade in
-    heroTimeline.to('.hero-content', {
-        opacity: 1,
-        duration: 1,
-        ease: "power2.out"
-    }, 0.3);
-    
-    // Character animation for hero title
-    heroTimeline.to('.hero h1 span', {
-        opacity: 1,
-        y: 0,
-        duration: 0.5,
-        stagger: 0.03,
-        ease: "back.out(1.7)"
-    }, 0.5);
-    
-    // Character animation for hero subtitle
-    heroTimeline.to('.hero h2 span', {
-        opacity: 1,
-        y: 0,
-        duration: 0.5,
-        stagger: 0.03,
-        ease: "back.out(1.7)"
-    }, 0.8);
-    
-    // Hero tagline fade in
-    heroTimeline.to('.hero-tagline', {
-        opacity: 1,
-        duration: 1
-    }, 1.2);
-    
-    // Scroll indicator fade in
-    heroTimeline.to('.scroll-indicator', {
-        opacity: 1,
-        duration: 1
-    }, 1.5);
-    
-    // Scissors animations
-    heroTimeline.to('.scissors-animation.left', {
-        x: 20,
-        y: 20,
-        rotation: 15,
-        duration: 2,
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut"
-    }, 1);
-    
-    heroTimeline.to('.scissors-animation.right', {
-        x: -20,
-        y: -20,
-        rotation: -15,
-        duration: 2.5,
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut"
-    }, 1);
-    
-    // Scroll Progress Bar
-    gsap.to('.progress-bar', {
-        width: '100%',
-        ease: 'none',
-        scrollTrigger: {
-            trigger: 'body',
-            start: 'top top',
-            end: 'bottom bottom',
-            scrub: 0.3
-        }
-    });
-    
-    // Navigation scroll effect
-    ScrollTrigger.create({
-        trigger: 'body',
-        start: 'top -80',
-        end: 'bottom top',
-        toggleClass: {className: 'scrolled', targets: '.main-nav'}
-    });
-    
-    // Intro Section Animations
-    gsap.to('.parallax-bg', {
-        y: '-30%',
-        ease: 'none',
-        scrollTrigger: {
-            trigger: '.intro-section',
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: true
-        }
-    });
-    
-    gsap.from('.intro-content .line-decoration', {
-        width: 0,
-        duration: 1,
-        scrollTrigger: {
-            trigger: '.intro-section',
-            start: 'top 80%',
-            toggleActions: 'play none none none'
-        }
-    });
-    
-    gsap.to('.intro-section .reveal-text', {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        stagger: 0.2,
-        scrollTrigger: {
-            trigger: '.intro-section',
-            start: 'top 70%',
-            toggleActions: 'play none none none'
-        }
-    });
-    
-    // Floating comb animation
-    gsap.to('#floating-comb', {
-        x: 30,
-        y: 20,
-        rotation: 30,
-        duration: 3,
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut",
-        scrollTrigger: {
-            trigger: '.intro-section',
-            start: 'top bottom',
-            toggleActions: 'play none none none'
-        }
-    });
-    
-    // TV Show Section Animations
-    gsap.to('.tv-image', {
-        x: 0,
-        opacity: 1,
-        duration: 1,
-        scrollTrigger: {
-            trigger: '.tv-section',
-            start: 'top 70%',
-            toggleActions: 'play none none none'
-        }
-    });
-    
-    gsap.to('.tv-section .reveal-text', {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        stagger: 0.2,
-        scrollTrigger: {
-            trigger: '.tv-section',
-            start: 'top 70%',
-            toggleActions: 'play none none none'
-        }
-    });
-    
-    // Services Section Animations
-    gsap.to('.services-section .section-title, .services-section .section-subtitle', {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        stagger: 0.2,
-        scrollTrigger: {
-            trigger: '.services-section',
-            start: 'top 70%',
-            toggleActions: 'play none none none'
-        }
-    });
-    
-    // Animate service items with different speeds based on data-speed attribute
-    const serviceItems = document.querySelectorAll('.service-item');
-    serviceItems.forEach(item => {
-        const speed = parseFloat(item.getAttribute('data-speed')) || 0.5;
-        
-        gsap.fromTo(item, 
-            { y: 100, opacity: 0 },
+        // Get purple section elements including rotating circle
+        const purpleSection = document.getElementById('purple-section');
+        const purpleImages = gsap.utils.toArray('.purple-image-item');
+        const purpleIndicatorDots = gsap.utils.toArray('.purple-indicator-dot');
+        const purpleSectionIndicator = document.querySelector('.purple-section-indicator');
+        const purpleTextContent = document.querySelector('.purple-text-content');
+        const purpleNumber = document.querySelector('.purple-number');
+        const purpleTitle = document.querySelector('.purple-title');
+        const purpleDescription = document.querySelector('.purple-description');
+        const purpleRotatingCircle = document.querySelector('.purple-rotating-circle svg');
+
+        // Content data for text changes
+        const purpleContentData = [
             {
-                y: 0,
-                opacity: 1,
-                duration: 0.8,
-                delay: speed * 0.2,
-                scrollTrigger: {
-                    trigger: '.services-section',
-                    start: 'top 70%',
-                    toggleActions: 'play none none none'
+                number: "01",
+                title: "Sugaring",
+                description: "Maris Gina's AP Sugaring features the internationally acclaimed Alexandria Professional brand, renowned for its advanced and unique approach to hair removal."
+            },
+            {
+                number: "02", 
+                title: "Waxing",
+                description: "Waxing offers a quick and efficient way to remove hair from the roots, covering large areas in a single motion for smooth, lasting results."
+            },
+            {
+                number: "03",
+                title: "Laser Hair Removal", 
+                description: "Advanced laser technology for permanent hair reduction. Safe, effective, and suitable for all skin types with long-lasting results."
+            },
+            {
+                number: "04",
+                title: "Skin Care",
+                description: "Comprehensive skin care treatments including facials, peels, and rejuvenation therapies for radiant, healthy skin."
+            }
+        ];
+
+        // Set initial states
+        gsap.set([heroTextLayout, imageContainer], { opacity: 0 });
+        gsap.set(heroTextLayout, { y: 20 });
+        gsap.set(imageContainer, { 
+            width: "30vw", 
+            maxWidth: "350px",
+            rotation: 3 
+        });
+        gsap.set([intermediateSection, slideOverServices, stickyImageTextSection], { opacity: 0 });
+        gsap.set(intermediateSection, { y: 50 });
+        gsap.set(stickyImageTextSection, { y: 100 });
+        gsap.set(textBlocks, { opacity: 0, y: 30 });
+
+        // Set initial purple section states - Position images vertically like stacked boxes
+        purpleImages.forEach((image, index) => {
+            gsap.set(image, { 
+                y: `${index * 100}%`, // Position them vertically: 0%, 100%, 200%, 300%
+                scale: 1
+            });
+        });
+
+        // 1. Hero entrance animation
+        const heroEntryTl = gsap.timeline({ delay: 0.5 });
+        heroEntryTl
+            .to(imageContainer, { 
+                opacity: 1, 
+                rotation: 3, 
+                duration: 1.2, 
+                ease: "power2.out" 
+            })
+            .to(heroTextLayout, { 
+                opacity: 1, 
+                y: 0, 
+                duration: 0.8, 
+                ease: "power2.out" 
+            }, "-=0.8");
+
+        // 2. Hero scroll animation with image scaling to 90% width
+        ScrollTrigger.create({
+            trigger: heroSection,
+            start: "top top",
+            end: "bottom top",
+            pin: true,
+            scrub: 1,
+            onUpdate: (self) => {
+                const progress = self.progress;
+                
+                // Calculate scaling - from initial size to 90% of viewport width
+                const initialWidth = 30; // 30vw initial width
+                const targetWidth = 90; // 90vw target width
+                const currentWidth = initialWidth + (targetWidth - initialWidth) * progress;
+                
+                // Scale and transform image
+                gsap.to(imageContainer, {
+                    width: `${currentWidth}vw`,
+                    maxWidth: "none", // Remove max-width constraint during animation
+                    rotation: progress * -3,
+                    opacity: 1 - (progress * 0.8),
+                    duration: 0.1,
+                    overwrite: true
+                });
+                
+                // Fade text
+                gsap.to(heroTextLayout, {
+                    opacity: 1 - (progress * 1.5),
+                    y: -30 * progress,
+                    duration: 0.1,
+                    overwrite: true
+                });
+            },
+            onLeave: () => {
+                siteHeader.classList.add('scrolled');
+            },
+            onEnterBack: () => {
+                siteHeader.classList.remove('scrolled');
+                // Reset image size when entering back
+                gsap.set(imageContainer, {
+                    width: "30vw",
+                    maxWidth: "350px"
+                });
+            }
+        });
+
+        // 3. Intermediate section
+        ScrollTrigger.create({
+            trigger: intermediateSection,
+            start: "top 80%",
+            onEnter: () => {
+                gsap.to(intermediateSection, { 
+                    opacity: 1, 
+                    y: 0, 
+                    duration: 0.8, 
+                    ease: "power2.out" 
+                });
+                siteHeader.classList.add('scrolled');
+            }
+        });
+
+        // 4. Services section
+        ScrollTrigger.create({
+            trigger: slideOverServices,
+            start: "top 80%",
+            onEnter: () => {
+                gsap.to(slideOverServices, { 
+                    opacity: 1, 
+                    duration: 0.8, 
+                    ease: "power2.out" 
+                });
+            }
+        });
+
+        // 5. Sticky section with scroll slowdown effect
+        ScrollTrigger.create({
+            trigger: stickyImageTextSection,
+            start: "top 80%",
+            onEnter: () => {
+                gsap.to(stickyImageTextSection, { 
+                    opacity: 1, 
+                    y: 0, 
+                    duration: 0.8, 
+                    ease: "power2.out" 
+                });
+            }
+        });
+
+        // 6. Slow scroll effect for sticky section
+        ScrollTrigger.create({
+            trigger: stickyImageTextSection,
+            start: "top 10%",
+            end: "bottom 90%",
+            pin: false,
+            scrub: 0.5, // This creates the slow scroll effect
+            onUpdate: (self) => {
+                // Optional: Add any additional effects during slow scroll
+            }
+        });
+
+        // 7. Individual paragraph reveal animations
+        const paragraphs = gsap.utils.toArray('.paragraph-reveal');
+        
+        paragraphs.forEach((paragraph, index) => {
+            ScrollTrigger.create({
+                trigger: paragraph,
+                start: "top 75%",
+                end: "bottom 25%",
+                scrub: 1, // Smooth animation tied to scroll
+                animation: gsap.fromTo(paragraph, 
+                    { 
+                        color: "var(--ta-text-gray-inactive)"
+                    },
+                    { 
+                        color: "var(--ta-text-dark)",
+                        duration: 1,
+                        ease: "none"
+                    }
+                ),
+                onEnter: () => {
+                    paragraph.classList.add('is-visible');
+                },
+                onLeave: () => {
+                    paragraph.classList.remove('is-visible');
+                },
+                onEnterBack: () => {
+                    paragraph.classList.add('is-visible');
+                },
+                onLeaveBack: () => {
+                    paragraph.classList.remove('is-visible');
+                }
+            });
+        });
+
+        // 8. Text blocks animations (simplified)
+        textBlocks.forEach((block, index) => {
+            // Entrance animation
+            ScrollTrigger.create({
+                trigger: block,
+                start: "top 85%",
+                onEnter: () => {
+                    gsap.to(block, {
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.6,
+                        ease: "power2.out",
+                        delay: index * 0.1
+                    });
+                }
+            });
+        });
+
+        // 9. UPDATED PURPLE SECTION - Smooth Image Push Effect with Rotating Circle
+        let currentPurpleSection = 0;
+        let isPurpleActive = false;
+
+        function updatePurpleContent(index) {
+            const content = purpleContentData[index];
+            
+            // Update text content with smooth transitions
+            gsap.to([purpleNumber, purpleTitle, purpleDescription], {
+                opacity: 0,
+                y: -20,
+                duration: 0.3,
+                ease: "power2.out",
+                onComplete: () => {
+                    purpleNumber.textContent = content.number;
+                    purpleTitle.textContent = content.title;
+                    purpleDescription.textContent = content.description;
+                    
+                    gsap.to([purpleNumber, purpleTitle, purpleDescription], {
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.4,
+                        ease: "power2.out",
+                        stagger: 0.1
+                    });
+                }
+            });
+        }
+
+        function updatePurpleIndicators(activeIndex) {
+            purpleIndicatorDots.forEach((dot, index) => {
+                if (index === activeIndex) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+        }
+
+        ScrollTrigger.create({
+            id: "purple-section",
+            trigger: purpleSection,
+            start: "top top",
+            end: "+=300%", // Long scroll distance for 4 images
+            pin: true,
+            scrub: 1,
+            onEnter: () => {
+                isPurpleActive = true;
+                purpleSectionIndicator.classList.add('visible');
+            },
+            onLeave: () => {
+                isPurpleActive = false;
+                purpleSectionIndicator.classList.remove('visible');
+            },
+            onEnterBack: () => {
+                isPurpleActive = true;
+                purpleSectionIndicator.classList.add('visible');
+            },
+            onLeaveBack: () => {
+                isPurpleActive = false;
+                purpleSectionIndicator.classList.remove('visible');
+            },
+            onUpdate: (self) => {
+                const progress = self.progress;
+                const totalImages = purpleImages.length;
+                
+                // Rotate the circle based on scroll progress
+                const rotationAngle = progress * 360; // Full rotation through the section
+                gsap.set(purpleRotatingCircle, {
+                    rotation: rotationAngle
+                });
+                
+                // Calculate how much to move all images up (0% to 300% for 4 images)
+                const totalMoveDistance = (totalImages - 1) * 100; // 300% for 4 images
+                const moveAmount = progress * totalMoveDistance; // 0 to 300
+                
+                // Determine which image should be visible and update text
+                const visibleImageIndex = Math.floor(progress * (totalImages - 1));
+                const localProgress = (progress * (totalImages - 1)) - visibleImageIndex;
+                
+                // Update text when we're 50% through transitioning to next image
+                if (localProgress >= 0.5 && visibleImageIndex + 1 < totalImages) {
+                    const nextIndex = visibleImageIndex + 1;
+                    if (currentPurpleSection !== nextIndex) {
+                        currentPurpleSection = nextIndex;
+                        updatePurpleContent(nextIndex);
+                        updatePurpleIndicators(nextIndex);
+                    }
+                } else if (localProgress < 0.5 && currentPurpleSection !== visibleImageIndex) {
+                    currentPurpleSection = visibleImageIndex;
+                    updatePurpleContent(visibleImageIndex);
+                    updatePurpleIndicators(visibleImageIndex);
+                }
+
+                // Move all images together - they push each other up
+                purpleImages.forEach((image, index) => {
+                    const initialPosition = index * 100; // Starting positions: 0%, 100%, 200%, 300%
+                    const newPosition = initialPosition - moveAmount; // Push up by moveAmount
+                    
+                    gsap.set(image, { 
+                        y: `${newPosition}%`,
+                        scale: 1 // Keep scale constant
+                    });
+                });
+            }
+        });
+
+        // Purple section indicator click handlers
+        purpleIndicatorDots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                const targetProgress = index / (purpleImages.length - 1);
+                const purpleST = ScrollTrigger.getById('purple-section');
+                if (purpleST) {
+                    const targetScroll = purpleST.start + (targetProgress * (purpleST.end - purpleST.start));
+                    gsap.to(window, {
+                        duration: 1.2,
+                        ease: "power2.inOut",
+                        scrollTo: targetScroll
+                    });
+                }
+            });
+        });
+
+        // 11. Blog Section Animations
+        const blogPosts = gsap.utils.toArray('.blog-post');
+        
+        blogPosts.forEach((post, index) => {
+            ScrollTrigger.create({
+                trigger: post,
+                start: "top 80%",
+                onEnter: () => {
+                    post.classList.add('visible');
+                },
+                onLeave: () => {
+                    post.classList.remove('visible');
+                },
+                onEnterBack: () => {
+                    post.classList.add('visible');
+                },
+                onLeaveBack: () => {
+                    post.classList.remove('visible');
+                }
+            });
+        });
+
+        // 12. Footer Animations
+        const footerColumns = gsap.utils.toArray('.footer-column, .footer-brand');
+        const footerSocial = gsap.utils.toArray('.social-link');
+        
+        // Set initial state for footer elements
+        gsap.set(footerColumns, { opacity: 0, y: 40 });
+        gsap.set(footerSocial, { scale: 0, rotation: 180 });
+        
+        ScrollTrigger.create({
+            trigger: '#footer',
+            start: "top 85%",
+            onEnter: () => {
+                // Animate footer columns
+                gsap.to(footerColumns, {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.8,
+                    ease: "power2.out",
+                    stagger: 0.15
+                });
+                
+                // Animate social icons
+                gsap.to(footerSocial, {
+                    scale: 1,
+                    rotation: 0,
+                    duration: 0.6,
+                    ease: "back.out(1.7)",
+                    stagger: 0.1,
+                    delay: 0.4
+                });
+            }
+        });
+
+        // 13. Header scroll behavior - Always visible with glass effect
+        ScrollTrigger.create({
+            start: "top -100",
+            end: "max",
+            onUpdate: (self) => {
+                const currentScrollY = window.scrollY;
+                
+                // Add scrolled class when scrolled down for enhanced glass effect
+                if (currentScrollY > 100) {
+                    siteHeader.classList.add('scrolled');
+                } else if (currentScrollY < 50) {
+                    siteHeader.classList.remove('scrolled');
                 }
             }
-        );
-    });
-    
-    // Floating scissors and bottle animations
-    gsap.to('#scissors-1', {
-        x: 100,
-        y: 50,
-        rotation: 360,
-        duration: 20,
-        repeat: -1,
-        ease: "none",
-        scrollTrigger: {
-            trigger: '.services-section',
-            start: 'top bottom',
-            toggleActions: 'play none none none'
-        }
-    });
-    
-    gsap.to('#scissors-2', {
-        x: -80,
-        y: -30,
-        rotation: -180,
-        duration: 15,
-        repeat: -1,
-        ease: "none",
-        scrollTrigger: {
-            trigger: '.services-section',
-            start: 'top bottom',
-            toggleActions: 'play none none none'
-        }
-    });
-    
-    gsap.to('#bottle-1', {
-        x: -50,
-        y: 30,
-        rotation: 180,
-        duration: 18,
-        repeat: -1,
-        ease: "none",
-        scrollTrigger: {
-            trigger: '.services-section',
-            start: 'top bottom',
-            toggleActions: 'play none none none'
-        }
-    });
-    
-    // Offers Section Animations
-    gsap.to('.offers-section .reveal-text', {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        scrollTrigger: {
-            trigger: '.offers-section',
-            start: 'top 70%',
-            toggleActions: 'play none none none'
-        }
-    });
-    
-    // Animate offer cards with staggered timing
-    const offerCards = document.querySelectorAll('.offer-card');
-    offerCards.forEach((card, index) => {
-        gsap.to(card, {
-            y: 0,
-            opacity: 1,
-            duration: 0.8,
-            delay: index * 0.2,
-            scrollTrigger: {
-                trigger: '.offers-section',
-                start: 'top 70%',
-                toggleActions: 'play none none none'
+        });
+
+        // Initialize header state
+        window.addEventListener('load', () => {
+            if (window.scrollY > 100) {
+                siteHeader.classList.add('scrolled');
             }
         });
-    });
-    
-    // About Section Animations
-    // Parallax effect for background
-    gsap.to('.about-bg-layer', {
-        y: '-30%',
-        ease: 'none',
-        scrollTrigger: {
-            trigger: '.about-section',
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: true
-        }
-    });
-    
-    // Scale down the about image as you scroll
-    gsap.to('.about-image', {
-        scale: 1,
-        ease: 'none',
-        scrollTrigger: {
-            trigger: '.about-section',
-            start: 'top bottom',
-            end: 'center center',
-            scrub: true
-        }
-    });
-    
-    // Section title animation
-    gsap.to('.about-section .section-title', {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        scrollTrigger: {
-            trigger: '.about-section',
-            start: 'top 70%',
-            toggleActions: 'play none none none'
-        }
-    });
-    
-    // Staggered paragraph animations
-    gsap.to('.about-section .stagger-text', {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        stagger: 0.2,
-        scrollTrigger: {
-            trigger: '.about-section',
-            start: 'top 60%',
-            toggleActions: 'play none none none'
-        }
-    });
-    
-    // Team Section Animations
-    // Parallax effect for background
-    gsap.to('.team-section .parallax-background', {
-        y: '-30%',
-        ease: 'none',
-        scrollTrigger: {
-            trigger: '.team-section',
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: true
-        }
-    });
-    
-    // Team section title
-    gsap.to('.team-section .section-title', {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        scrollTrigger: {
-            trigger: '.team-section',
-            start: 'top 70%',
-            toggleActions: 'play none none none'
-        }
-    });
-    
-    // Team image animation
-    gsap.to('.team-image-container', {
-        x: 0,
-        opacity: 1,
-        duration: 1,
-        scrollTrigger: {
-            trigger: '.team-section',
-            start: 'top 60%',
-            toggleActions: 'play none none none'
-        }
-    });
-    
-    // Staggered paragraph animations
-    gsap.to('.team-section .stagger-text', {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        stagger: 0.2,
-        scrollTrigger: {
-            trigger: '.team-section',
-            start: 'top 60%',
-            toggleActions: 'play none none none'
-        }
-    });
-    
-    // Signature fade in
-    gsap.to('.team-signature', {
-        opacity: 1,
-        duration: 1,
-        delay: 1,
-        scrollTrigger: {
-            trigger: '.team-section',
-            start: 'top 60%',
-            toggleActions: 'play none none none'
-        }
-    });
-    
-    // Testimonial Cards Animation
-    const testimonialCards = document.querySelectorAll('.testimonial-card');
-    testimonialCards.forEach((card, index) => {
-        gsap.to(card, {
-            opacity: 1,
-            rotateY: 0,
-            duration: 1,
-            delay: index * 0.2,
-            scrollTrigger: {
-                trigger: '.testimonials-section',
-                start: 'top 70%',
-                toggleActions: 'play none none none'
-            }
+
+        // Refresh ScrollTrigger on resize
+        window.addEventListener('resize', () => {
+            ScrollTrigger.refresh();
         });
-    });
-    
-    // CTA Section Animations
-    gsap.to('.cta-section .reveal-text', {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        stagger: 0.2,
-        scrollTrigger: {
-            trigger: '.cta-section',
-            start: 'top 70%',
-            toggleActions: 'play none none none'
-        }
-    });
-    
-    gsap.to('.cta-button', {
-        scale: 1,
-        opacity: 1,
-        duration: 1,
-        ease: "back.out(1.7)",
-        scrollTrigger: {
-            trigger: '.cta-section',
-            start: 'top 70%',
-            toggleActions: 'play none none none'
-        }
-    });
-    
-    // CTA scissors animation
-    gsap.to('#cta-scissors', {
-        rotation: 30,
-        x: 30,
-        y: -20,
-        duration: 3,
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut",
-        scrollTrigger: {
-            trigger: '.cta-section',
-            start: 'top bottom',
-            toggleActions: 'play none none none'
-        }
-    });
-    
-    // Create hover effects for service items
-    const createHoverEffects = () => {
-        serviceItems.forEach(item => {
-            const icon = item.querySelector('.service-icon');
-            
-            item.addEventListener('mouseenter', () => {
-                gsap.to(icon, {
-                    scale: 1.2,
-                    duration: 0.3
-                });
-            });
-            
-            item.addEventListener('mouseleave', () => {
-                gsap.to(icon, {
-                    scale: 1,
-                    duration: 0.3
-                });
-            });
-        });
-    };
-    
-    createHoverEffects();
-    
-    // Scroll to section when clicking on navigation items
-    document.querySelectorAll('.nav-item, .scroll-indicator').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            const target = document.querySelector(this.getAttribute('href'));
-            
-            if (target) {
-                gsap.to(window, {
-                    duration: 1,
-                    scrollTo: {
-                        y: target,
-                        offsetY: 80
-                    },
-                    ease: 'power2.inOut'
-                });
-            }
-        });
-    });
-    
-    // Add a scroll trigger for each section to animate elements as they come into view
-    document.querySelectorAll('section').forEach((section) => {
-        ScrollTrigger.create({
-            trigger: section,
-            start: 'top 80%',
-            onEnter: () => {
-                section.classList.add('active');
-            }
-        });
-    });
-    
-    // Create a 3D tilt effect on testimonial cards
-    const createTiltEffect = () => {
-        testimonialCards.forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-                
-                const deltaX = (x - centerX) / centerX;
-                const deltaY = (y - centerY) / centerY;
-                
-                gsap.to(card, {
-                    rotationY: deltaX * 10,
-                    rotationX: -deltaY * 10,
-                    duration: 0.5,
-                    ease: 'power2.out'
-                });
-            });
-            
-            card.addEventListener('mouseleave', () => {
-                gsap.to(card, {
-                    rotationY: 0,
-                    rotationX: 0,
-                    duration: 0.5,
-                    ease: 'power2.out'
-                });
-            });
-        });
-    };
-    
-    createTiltEffect();
-    
-    // Add animated underline effect to navigation items
-    const navItems = document.querySelectorAll('.nav-item');
-    
-    navItems.forEach(item => {
-        const underline = document.createElement('div');
-        underline.classList.add('nav-underline');
-        underline.style.position = 'absolute';
-        underline.style.bottom = '-2px';
-        underline.style.left = '50%';
-        underline.style.width = '0';
-        underline.style.height = '2px';
-        underline.style.backgroundColor = 'var(--color-secondary)';
-        underline.style.transition = 'width 0.3s, left 0.3s';
-        
-        item.style.position = 'relative';
-        item.appendChild(underline);
-        
-        item.addEventListener('mouseenter', () => {
-            underline.style.width = '100%';
-            underline.style.left = '0';
-        });
-        
-        item.addEventListener('mouseleave', () => {
-            underline.style.width = '0';
-            underline.style.left = '50%';
-        });
-    });
-    
-    // Add pulse animation to reservation button
-    gsap.to('.btn-reservation', {
-        scale: 1.05,
-        duration: 0.8,
-        repeat: -1,
-        yoyo: true,
-        ease: 'sine.inOut'
-    });
-}
 
-
-// Add this to your CSS section
-const glassNavStyle = document.createElement('style');
-glassNavStyle.innerHTML = `
-  .main-nav.scrolled {
-    background-color: rgba(255, 255, 255, 0.8) !important;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-  }
-`;
-document.head.appendChild(glassNavStyle);
-
-// Make sure this is in your ScrollTrigger section
-ScrollTrigger.create({
-  trigger: 'body',
-  start: 'top -80',
-  end: 'bottom top',
-  toggleClass: {className: 'scrolled', targets: '.main-nav'}
-});
-
-
-
-// Updated Hero Section Animations with Expanding Video
-function initExpandingVideoAnimation() {
-  // Initial animations when page loads
-  const heroTimeline = gsap.timeline();
-  
-  // Fade in hero content
-  heroTimeline.to('.hero-content', {
-    opacity: 1,
-    duration: 1,
-    ease: "power2.out"
-  }, 0.3);
-  
-  // Character animation for hero title
-  heroTimeline.to('.hero h1 span', {
-    opacity: 1,
-    y: 0,
-    duration: 0.5,
-    stagger: 0.03,
-    ease: "back.out(1.7)"
-  }, 0.5);
-  
-  // Character animation for hero subtitle
-  heroTimeline.to('.hero h2 span', {
-    opacity: 1,
-    y: 0,
-    duration: 0.5,
-    stagger: 0.03,
-    ease: "back.out(1.7)"
-  }, 0.8);
-  
-  // Hero tagline fade in
-  heroTimeline.to('.hero-tagline', {
-    opacity: 1,
-    duration: 1
-  }, 1.2);
-  
-  // CTA button fade in
-  heroTimeline.to('.hero-cta-button', {
-    opacity: 1,
-    duration: 1
-  }, 1.4);
-
-  // Show small video
-  heroTimeline.to('.expanding-video-container', {
-    opacity: 1,
-    duration: 1
-  }, 1.5);
-  
-  // Play the video when it appears
-  heroTimeline.add(() => {
-    document.querySelector('.expanding-video').play();
-  }, 1.5);
-  
-  // Scroll indicator fade in
-  heroTimeline.to('.scroll-indicator', {
-    opacity: 1,
-    duration: 1
-  }, 1.6);
-  
-  // Scissors animations
-  heroTimeline.to('.scissors-animation.left', {
-    x: 20,
-    y: 20,
-    rotation: 15,
-    duration: 2,
-    repeat: -1,
-    yoyo: true,
-    ease: "sine.inOut"
-  }, 1);
-  
-  heroTimeline.to('.scissors-animation.right', {
-    x: -20,
-    y: -20,
-    rotation: -15,
-    duration: 2.5,
-    repeat: -1,
-    yoyo: true,
-    ease: "sine.inOut"
-  }, 1);
-  
-  // Video expansion animation on scroll
-  const videoExpansionTimeline = gsap.timeline({
-    scrollTrigger: {
-      trigger: '.hero',
-      start: 'top top',
-      end: 'bottom top',
-      scrub: true,
-      pin: true,
-      pinSpacing: true,
-      anticipatePin: 1
-    }
-  });
-  
-  // As user scrolls, expand video to full screen
-  videoExpansionTimeline.to('.expanding-video-container', {
-    width: '100vw',
-    height: '100vh',
-    top: '50%',
-    left: '50%',
-    xPercent: -50,
-    yPercent: -50,
-    borderRadius: 0,
-    duration: 1,
-    ease: 'power2.inOut'
-  }, 0);
-  
-  // Fade out hero content as video expands
-  videoExpansionTimeline.to('.hero-content', {
-    opacity: 0,
-    duration: 0.5
-  }, 0);
-  
-  // Fade out other decorative elements
-  videoExpansionTimeline.to('.scissors-animation, .scroll-indicator', {
-    opacity: 0,
-    duration: 0.3
-  }, 0);
-  
-  // Adjust video overlay gradient
-  videoExpansionTimeline.to('.video-overlay-gradient', {
-    background: 'linear-gradient(135deg, rgba(30, 34, 170, 0.2) 0%, transparent 60%)',
-    duration: 0.5
-  }, 0.3);
-  
-  // Add a marker to indicate when we're at full screen and can scroll past
-  videoExpansionTimeline.add(() => {
-    // You could add an indicator here if desired
-    console.log("Video reached full screen - user can scroll past");
-  }, 1);
-  
-  // Create overlay text that appears when video is fullscreen
-  const overlayText = document.createElement('div');
-  overlayText.className = 'video-fullscreen-text';
-  overlayText.innerHTML = '<h3>Vítejte v Tomáš Arsov</h3><p>Scroll to discover more</p>';
-  overlayText.style.cssText = `
-    position: absolute;
-    bottom: 10%;
-    left: 50%;
-    transform: translateX(-50%);
-    color: white;
-    text-align: center;
-    opacity: 0;
-    z-index: 2;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
-  `;
-  document.querySelector('.expanding-video-container').appendChild(overlayText);
-  
-  // Fade in overlay text when video is fullscreen
-  videoExpansionTimeline.to('.video-fullscreen-text', {
-    opacity: 1,
-    duration: 0.3
-  }, 0.7);
-}
-
-// Make sure to add this function to your main initialization
-document.addEventListener('DOMContentLoaded', function() {
-  // Split text for character animations
-  const splitTextElements = document.querySelectorAll('.split-text');
-  splitTextElements.forEach(element => {
-    // Split the text into individual characters
-    const text = element.textContent;
-    const characters = text.split("");
-    element.textContent = '';
-    
-    // Create a span for each character
-    characters.forEach(char => {
-      const span = document.createElement('span');
-      span.textContent = char === ' ' ? '\u00A0' : char; // Use non-breaking space for spaces
-      element.appendChild(span);
-    });
-  });
-  
-  // Initialize expanding video animation
-  initExpandingVideoAnimation();
-});
+        console.log('Complete website with hero section, purple section, blog section, and modern footer - all animations initialized successfully!');
     </script>
 </body>
 </html>
